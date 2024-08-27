@@ -2308,7 +2308,7 @@ PrefabInstance:
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
@@ -2547,29 +2547,6 @@ MonoBehaviour:
   firstPersonCamera: {fileID: 1825276268}
   player: {fileID: 1862834080}
   transitionSpeed: 1
---- !u!95 &1862834088 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6982812146204527121, guid: 64dce48905ffd9b4293e595fa6941544,
-    type: 3}
-  m_PrefabInstance: {fileID: 1762682258}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1862834089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862834078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360a7a688092a04438bf20eb178905ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Jalan: 2
-  Lari: 6
-  animator: {fileID: 1862834088}
-  Kamera: {fileID: 859227334}
-  targetKunci: {fileID: 2131804034}
 --- !u!1001 &1979352518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2922,66 +2899,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096275411}
   m_CullTransparentMesh: 1
---- !u!1 &2131804033
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2131804035}
-  - component: {fileID: 2131804034}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2131804034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131804033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc610a1e38b0d414ea0a8c0b129aaf69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NamaPlayer: 
-  KameraUtama: {fileID: 0}
-  kameraCinemachine: {fileID: 0}
-  aimIcon: {fileID: 0}
-  lokasiAimIcon: 0
-  Target: 
-  TargetOffset: {x: 0, y: 0}
-  JarakMin: 0
-  JarakMax: 0
-  tekanFUI: {fileID: 0}
-  tekanEUI: {fileID: 0}
-  DiTargetkan: 0
-  currentTarget: {fileID: 0}
-  karakterGerak: {fileID: 0}
-  isDialogActive: 0
-  lockTargetAktif: 0
---- !u!4 &2131804035
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131804033}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.013984, y: 2.522055, z: -0.16554584}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2114283753834967212
 GameObject:
   m_ObjectHideFlags: 0
