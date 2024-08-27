@@ -12,6 +12,7 @@ public class CameraTrigger : MonoBehaviour
 
     private bool isInTrigger = false;
     private bool hasPressedE = false; // Variable to track if E has been pressed
+    public Animator an;
 
     private void Start()
     {
@@ -59,13 +60,17 @@ public class CameraTrigger : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   
         if (isInTrigger && Input.GetKeyDown(KeyCode.E))
         {
             // If E is pressed and player is within the trigger
             hasPressedE = true;
             cameraChangeScript.SwitchToFirstPerson(); // Switch to first-person view
             StartCoroutine(ShowGameInGameUIAfterDelay());
+            if (an != null)
+            {
+                an.SetTrigger("duduk"); // Assuming "Sit" is the trigger parameter for the sitting animation
+            }
         }
     }
 
