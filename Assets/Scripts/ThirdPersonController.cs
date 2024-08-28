@@ -12,8 +12,14 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
     [RequireComponent(typeof(PlayerInput))]
 #endif
+    
+
     public class ThirdPersonController : MonoBehaviour
     {
+        public Animator an;
+        public bool isduduk;
+
+
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -135,7 +141,7 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -159,6 +165,23 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+
+            if (!isduduk)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    an.SetBool("duduk", true);
+                    isduduk = true; 
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    an.SetBool("duduk", false);
+                    isduduk = false;
+                }
+            }
         }
 
         private void LateUpdate()
