@@ -39,7 +39,7 @@ public class Escape : MonoBehaviour
 
     private IEnumerator Delay ()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         Time.timeScale = 0;
     }

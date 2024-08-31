@@ -189,7 +189,15 @@ public class VisualDialog : MonoBehaviour
             }
             else
             {
-                JawabanPanel.SetActive(true);
+                if (AutoFinishDialog && NoOpsi)
+                {
+                    SetChildStatus(ParentObject, false);
+                    FinishDialogEvent?.Invoke();
+                }
+                else
+                {
+                    JawabanPanel.SetActive(true);
+                }
             }
         }
     }

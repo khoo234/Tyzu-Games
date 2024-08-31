@@ -14,6 +14,11 @@ public class Darah : MonoBehaviour
         MaxDarah = DarahSekarang;
     }
 
+    void Start()
+    {
+        Script.SetHealth(DarahSekarang, MaxDarah);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))

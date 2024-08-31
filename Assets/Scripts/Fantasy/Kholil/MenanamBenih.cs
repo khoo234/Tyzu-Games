@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MenanamBenih : MonoBehaviour
 {
-    public GameObject seedPrefab; // Prefab benih yang akan ditanam
-    private bool canPlant = false; // Untuk memeriksa apakah player berada di area tanam
+    public GameObject seedPrefab;
+    public bool canPlant = false;
 
     void Update()
     {
@@ -22,9 +22,15 @@ public class MenanamBenih : MonoBehaviour
 
             if (inventoryManager.HasSeeds())
             {
-                // Posisi tanam benih
-                Vector3 plantPosition = transform.position + Vector3.up; // Menyesuaikan posisi benih
+                Vector3 plantPosition = transform.position + Vector3.up;
                 GameObject seed = Instantiate(seedPrefab, plantPosition, Quaternion.identity);
+
+                Benih benihScript = seed.GetComponent<Benih>();
+                if (benihScript != null)
+                {
+                    // Mengatur Ditanam menjadi true
+                    benihScript.Ditanam = true;
+                }
 
                 // Menonaktifkan collider benih agar tidak bisa diambil lagi
                 Collider seedCollider = seed.GetComponent<Collider>();
@@ -32,7 +38,7 @@ public class MenanamBenih : MonoBehaviour
                 {
                     seedCollider.enabled = false;
                 }
-
+                
                 // Kurangi benih dari inventory
                 inventoryManager.UseSeed();
                 Debug.Log("Benih berhasil ditanam. Jumlah benih tersisa: " + inventoryManager.GetSeedCount());

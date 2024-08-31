@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5316692606269051800}
   m_Layer: 0
   m_Name: Ladang
-  m_TagString: Untagged
+  m_TagString: Ladang
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,4 +126,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seedPrefab: {fileID: 2283646967256870337, guid: 703000ed4a377934b93777679dd1a4e7,
     type: 3}
-  playerTransform: {fileID: 0}
+  canPlant: 0

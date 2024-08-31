@@ -7,6 +7,7 @@ TagManager:
   - CinemachineTarget
   - CameraTrigger
   - Enemy
+  - Ladang
   layers:
   - Default
   - TransparentFX
