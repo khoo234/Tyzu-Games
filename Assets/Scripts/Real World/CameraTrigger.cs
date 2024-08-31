@@ -1,37 +1,35 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraTrigger : MonoBehaviour
 {
-    public CameraChange cameraChangeScript; // Reference to CameraChange script
-    public GameObject gameInGameUI; // Reference to the in-game UI
-    public float delayBeforeUIActive = 2.0f; // Delay before UI becomes active
-
-    public GameObject box1; // Reference to box 1 (orange)
-    public GameObject box2; // Reference to box 2 (yellow)
+    public CameraChange cameraChangeScript; // Referensi ke script CameraChange
+    public GameObject gameInGameUI; // Referensi ke UI untuk game di dalam game
+    public float cameraSwitchDelay = 1.0f; // Delay untuk switch kamera
 
     private bool isInTrigger = false;
-    private bool hasPressedE = false; // Variable to track if E has been pressed
-    public Animator an;
+    private bool hasPressedE = false; // Variabel untuk memantau apakah E sudah ditekan
+    private bool canPressS = false; // Variabel untuk mengontrol apakah tombol S bisa ditekan
+    private PlayerInput playerInput; // Referensi ke PlayerInput
 
     private void Start()
     {
-        // Ensure box1 is active and box2 is inactive at the start
-        if (box1 != null) box1.SetActive(true);
-        if (box2 != null) box2.SetActive(false);
+        // Temukan PlayerInput pada objek dengan tag "Player"
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerInput = player.GetComponent<PlayerInput>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered trigger. Press E for first-person view.");
+            Debug.Log("Player masuk trigger. Tekan E untuk tampilan first person.");
             isInTrigger = true;
-            if (hasPressedE)
-            {
-                // If E was already pressed, ensure box2 is active
-                ActivateBox2();
-            }
+            hasPressedE = false; // Reset ketika memasuki trigger
         }
     }
 
@@ -39,91 +37,109 @@ public class CameraTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player exited trigger. Switching to third-person view automatically.");
+            Debug.Log("Player keluar trigger. Pindah ke tampilan third-person otomatis.");
             isInTrigger = false;
-            hasPressedE = false; // Reset when exiting the trigger
+            hasPressedE = false; // Reset ketika keluar dari trigger
 
-            // Switch to third-person view
-            cameraChangeScript.SwitchToThirdPerson();
+            // Pindah ke third-person view jika keluar dari trigger
+            if (cameraChangeScript != null)
+            {
+                cameraChangeScript.SwitchToThirdPerson();
+            }
 
-            // Hide in-game UI and manage cursor visibility
+            // Sembunyikan UI game di dalam game
             if (gameInGameUI != null)
             {
                 gameInGameUI.SetActive(false);
-                Cursor.visible = false; // Hide cursor
-                Cursor.lockState = CursorLockMode.Locked; // Lock cursor to the center of the screen
+                Cursor.visible = false; // Sembunyikan cursor mouse
+                Cursor.lockState = CursorLockMode.Locked; // Kunci cursor di tengah layar
             }
 
-            // Re-activate box1 and deactivate box2
-            DeactivateBox2();
+            // Aktifkan kembali input pemain jika sebelumnya dinonaktifkan
+            if (playerInput != null)
+            {
+                playerInput.enabled = true;
+            }
         }
     }
 
     private void Update()
-    {   
+    {
         if (isInTrigger && Input.GetKeyDown(KeyCode.E))
         {
-            // If E is pressed and player is within the trigger
-            hasPressedE = true;
-            cameraChangeScript.SwitchToFirstPerson(); // Switch to first-person view
-            StartCoroutine(ShowGameInGameUIAfterDelay());
-            if (an != null)
+            // Tombol E ditekan dan berada di dalam trigger
+            if (!hasPressedE) // "Do Once" functionality
             {
-                an.SetTrigger("duduk"); // Assuming "Sit" is the trigger parameter for the sitting animation
+                hasPressedE = true; // Mark as done to prevent re-triggering
+                Debug.Log("Tombol E ditekan di dalam trigger.");
+                StartCoroutine(SwitchCameraAfterDelay(cameraSwitchDelay)); // Panggil coroutine dengan delay
+                StartCoroutine(ShowGameInGameUIImmediately()); // Tampilkan UI segera
+
+                // Nonaktifkan input pemain saat berada dalam trigger
+                if (playerInput != null)
+                {
+                    playerInput.enabled = false;
+                }
+            }
+        }
+
+        // Periksa apakah tombol S ditekan hanya jika canPressS adalah true
+        if (isInTrigger && Input.GetKeyDown(KeyCode.S) && canPressS)
+        {
+            Debug.Log("Tombol S ditekan di dalam trigger.");
+            if (playerInput != null)
+            {
+                playerInput.enabled = true; // Aktifkan kembali input pemain
             }
         }
     }
 
-    private IEnumerator ShowGameInGameUIAfterDelay()
+    private IEnumerator SwitchCameraAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delayBeforeUIActive); // Wait for the specified delay
+        Debug.Log($"Menunggu {delay} detik sebelum mengganti kamera.");
+        yield return new WaitForSeconds(delay); // Tunggu selama delay
+        if (cameraChangeScript != null)
+        {
+            cameraChangeScript.SwitchToFirstPerson(); // Ganti ke first-person view
+            Debug.Log("Berpindah ke tampilan first-person.");
+        }
+    }
 
-        // Show the in-game UI and manage cursor visibility
+    private IEnumerator ShowGameInGameUIImmediately()
+    {
+        Debug.Log("Menampilkan UI game di dalam game.");
+        // Tampilkan UI game di dalam game segera
         if (gameInGameUI != null && hasPressedE)
         {
             gameInGameUI.SetActive(true);
-            Cursor.visible = true; // Show cursor
-            Cursor.lockState = CursorLockMode.None; // Unlock cursor from the center of the screen
+            Cursor.visible = true; // Tampilkan cursor mouse
+            Cursor.lockState = CursorLockMode.None; // Lepaskan cursor dari tengah layar
         }
 
-        // Activate box2 and deactivate box1
-        ActivateBox2();
+        // Yield return null to satisfy IEnumerator requirement
+        yield return null;
     }
 
-    private void ActivateBox2()
+
+    // Metode untuk mengatur status canPressS
+    public void SetCanPressS(bool value)
     {
-        if (box1 != null && box2 != null)
-        {
-            box2.transform.position = box1.transform.position; // Move box2 to box1's position
-            box2.transform.rotation = box1.transform.rotation; // Match box2's rotation with box1
-            box1.SetActive(false);
-            box2.SetActive(true);
-        }
+        canPressS = value;
     }
 
-    private void DeactivateBox2()
-    {
-        if (box1 != null && box2 != null)
-        {
-            box1.SetActive(true);
-            box2.SetActive(false);
-            // Ensure box2's position and rotation match box1's
-            box2.transform.position = box1.transform.position;
-            box2.transform.rotation = box1.transform.rotation;
-        }
-    }
-
-    // Methods to get and set the trigger status
+    // Metode untuk mengembalikan status isInTrigger
     public bool IsInTrigger()
     {
         return isInTrigger;
     }
 
+    // Metode untuk mengembalikan status hasPressedE
     public bool HasPressedE()
     {
         return hasPressedE;
     }
 
+    // Metode untuk mengatur status hasPressedE
     public void SetHasPressedE(bool value)
     {
         hasPressedE = value;

@@ -1,26 +1,47 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI; // Import untuk Button
 
 public class ShutdownHandler : MonoBehaviour
 {
     public CameraChange cameraChangeScript; // Referensi ke skrip CameraChange
     public GameObject canvas; // Referensi ke Canvas UI
-    public GameObject box1; // Referensi ke Box 1 (posisi awal)
-    public GameObject box2; // Referensi ke Box 2 (posisi yang akan diubah)
-
-    private Vector3 box1InitialPosition; // Posisi awal Box 1
-    private Quaternion box1InitialRotation; // Rotasi awal Box 1
+    public GameObject panelInvestasi; // Referensi ke Panel Investasi
+    public Button playButton; // Referensi ke tombol Play
+    public Button investasiButton; // Referensi ke tombol Investasi
+    public float moveBackDistance = 2.0f; // Jarak mundur karakter
+    public float moveSpeed = 5.0f; // Kecepatan gerakan mundur
 
     private void Start()
     {
-        // Menyimpan posisi dan rotasi awal Box 1
-        if (box1 != null)
+        // Pastikan panel investasi tidak aktif saat awal
+        if (panelInvestasi != null)
         {
-            box1InitialPosition = box1.transform.position;
-            box1InitialRotation = box1.transform.rotation;
+            panelInvestasi.SetActive(false);
         }
         else
         {
-            Debug.LogError("Box1 not assigned in the Inspector.");
+            Debug.LogError("Panel Investasi not assigned in the Inspector.");
+        }
+
+        // Pastikan tombol Play aktif saat awal
+        if (playButton != null)
+        {
+            playButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Play Button not assigned in the Inspector.");
+        }
+
+        // Pastikan tombol Investasi aktif saat awal
+        if (investasiButton != null)
+        {
+            investasiButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Investasi Button not assigned in the Inspector.");
         }
     }
 
@@ -46,22 +67,58 @@ public class ShutdownHandler : MonoBehaviour
             Debug.LogError("Canvas not assigned in the Inspector.");
         }
 
-        // Mengatur Box 2 kembali ke posisi dan rotasi awal Box 1
-        if (box2 != null && box1 != null)
+        // Memindahkan karakter mundur
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            // Menonaktifkan box2 untuk menghindari interaksi sebelum mengatur posisinya
-            box2.SetActive(false);
-
-            // Mengatur posisi dan rotasi box2 sesuai dengan box1
-            box2.transform.position = box1InitialPosition;
-            box2.transform.rotation = box1InitialRotation;
-
-            // Mengaktifkan box2 kembali setelah mengatur posisinya
-            box2.SetActive(true);
+            CharacterController characterController = player.GetComponent<CharacterController>();
+            if (characterController != null)
+            {
+                Vector3 moveBack = -player.transform.forward * moveBackDistance;
+                StartCoroutine(MoveBackCoroutine(characterController, moveBack));
+            }
+            else
+            {
+                Debug.LogError("CharacterController component is missing on the player.");
+            }
         }
         else
         {
-            Debug.LogError("Box1 or Box2 not assigned in the Inspector.");
+            Debug.LogError("Player not found in the scene.");
         }
+
+        // Reset Panel Investasi
+        if (panelInvestasi != null)
+        {
+            panelInvestasi.SetActive(false);
+        }
+
+        // Reset tombol Play
+        if (playButton != null)
+        {
+            playButton.gameObject.SetActive(true);
+        }
+
+        // Reset tombol Investasi
+        if (investasiButton != null)
+        {
+            investasiButton.gameObject.SetActive(true);
+        }
+    }
+
+    private IEnumerator MoveBackCoroutine(CharacterController characterController, Vector3 moveBack)
+    {
+        float elapsedTime = 0f;
+        float moveDuration = moveBackDistance / moveSpeed;
+        Vector3 startPosition = characterController.transform.position;
+
+        while (elapsedTime < moveDuration)
+        {
+            characterController.transform.position = Vector3.Lerp(startPosition, startPosition + moveBack, (elapsedTime / moveDuration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        characterController.transform.position = startPosition + moveBack;
     }
 }
