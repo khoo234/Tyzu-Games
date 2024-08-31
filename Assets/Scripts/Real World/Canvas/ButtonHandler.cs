@@ -1,19 +1,34 @@
+using TMPro; // Menggunakan TextMeshPro
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
 public class ButtonHandler : MonoBehaviour
 {
-    public GameObject box1; // Referensi ke box 1
-    public GameObject box2; // Referensi ke box 2
-    public GameObject box3; // Referensi ke box 3
     public Button investasiButton; // Referensi ke tombol Investasi
     public Button playButton; // Referensi ke tombol Play
+    public GameObject panelInvestasi; // Referensi ke Panel Investasi
 
-    private bool isBox3Active = false; // Track if box3 is active
+    public Button button2X; // Referensi ke tombol 2X
+    public Button button4X; // Referensi ke tombol 4X
+    public TMP_Text timerText; // Referensi ke TMP_Text untuk menampilkan timer
+    public TMP_Text coinText; // Referensi ke TMP_Text untuk menampilkan jumlah koin
+
+    private bool isInvesting = false; // Flag untuk mengecek apakah investasi sedang berjalan
 
     private void Start()
     {
+        // Nonaktifkan Panel Investasi saat awal permainan
+        if (panelInvestasi != null)
+        {
+            panelInvestasi.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Panel Investasi not assigned in the Inspector.");
+        }
+
+        // Menambahkan listener untuk tombol Investasi
         if (investasiButton != null)
         {
             investasiButton.onClick.AddListener(OnInvestasiButtonClick);
@@ -23,68 +38,128 @@ public class ButtonHandler : MonoBehaviour
             Debug.LogError("Investasi Button not assigned in the Inspector.");
         }
 
+        // Menambahkan listener untuk tombol Play
         if (playButton != null)
         {
-            // Pastikan tombol Play aktif saat awal permainan
-            playButton.gameObject.SetActive(true);
-        }
-    }
-
-    public void OnInvestasiButtonClick()
-    {
-        if (box1 != null && box2 != null && box3 != null)
-        {
-            // Debug sebelum mengubah status box3
-            Debug.Log("Box3 active in hierarchy before change: " + box3.activeInHierarchy);
-
-            // Aktifkan tombol Play jika berpindah dari box2 ke box3
-            if (box2.activeInHierarchy && playButton != null)
-            {
-                playButton.gameObject.SetActive(false);
-            }
-
-            // Nonaktifkan box2
-            box2.SetActive(false);
-
-            // Aktifkan box3 dan atur posisinya sama dengan box2
-            box3.SetActive(true);
-            box3.transform.position = box2.transform.position;
-            box3.transform.rotation = box2.transform.rotation;
-
-            // Update the status of box3
-            isBox3Active = true;
-
-            // Pastikan tombol Play aktif jika berpindah dari box1 ke box2
-            if (box1.activeInHierarchy && playButton != null)
-            {
-                playButton.gameObject.SetActive(true);
-            }
-
-            // Debug setelah mengubah status box3
-            Debug.Log("Box3 active in hierarchy after change: " + box3.activeInHierarchy);
-            Debug.Log("Box2 active in hierarchy after change: " + box2.activeInHierarchy);
+            playButton.onClick.AddListener(OnPlayButtonClick);
+            playButton.gameObject.SetActive(true); // Pastikan tombol Play aktif
         }
         else
         {
-            Debug.LogError("Box1, Box2, or Box3 not assigned in the Inspector.");
+            Debug.LogError("Play Button not assigned in the Inspector.");
         }
-    }
 
-    private void Update()
-    {
-        // Start coroutine to re-enable Play button if 'S' key is pressed and box3 is active
-        if (isBox3Active && Input.GetKeyDown(KeyCode.S))
+        // Menambahkan listener untuk tombol 2X
+        if (button2X != null)
         {
-            StartCoroutine(EnablePlayButtonAfterDelay(1f)); // Wait for 1 second
+            button2X.onClick.AddListener(() => StartCoroutine(StartInvestment(button2X, 2, 10f)));
         }
+        else
+        {
+            Debug.LogError("Button 2X not assigned in the Inspector.");
+        }
+
+        // Menambahkan listener untuk tombol 4X
+        if (button4X != null)
+        {
+            button4X.onClick.AddListener(() => StartCoroutine(StartInvestment(button4X, 4, 20f)));
+        }
+        else
+        {
+            Debug.LogError("Button 4X not assigned in the Inspector.");
+        }
+
+        // Update UI awal untuk koin
+        UpdateCoinText();
     }
 
-    private IEnumerator EnablePlayButtonAfterDelay(float delay)
+    private void OnInvestasiButtonClick()
     {
-        yield return new WaitForSeconds(delay);
         if (playButton != null)
         {
-            playButton.gameObject.SetActive(true);
+            playButton.gameObject.SetActive(false); // Nonaktifkan tombol Play
+        }
+
+        if (panelInvestasi != null)
+        {
+            panelInvestasi.SetActive(true); // Aktifkan panel Investasi
+        }
+
+        if (investasiButton != null)
+        {
+            investasiButton.gameObject.SetActive(false); // Nonaktifkan tombol Investasi
+        }
+    }
+
+    private void OnPlayButtonClick()
+    {
+        // Logika untuk tombol Play, jika diperlukan
+        if (panelInvestasi != null)
+        {
+            panelInvestasi.SetActive(false); // Nonaktifkan panel Investasi
+        }
+
+        if (playButton != null)
+        {
+            playButton.gameObject.SetActive(true); // Aktifkan tombol Play
+        }
+
+        if (investasiButton != null)
+        {
+            investasiButton.gameObject.SetActive(true); // Aktifkan kembali tombol Investasi jika diperlukan
+        }
+    }
+
+    private IEnumerator StartInvestment(Button clickedButton, int multiplier, float duration)
+    {
+        // Jika investasi sedang berjalan, abaikan klik lainnya
+        if (isInvesting)
+            yield break;
+
+        // Tandai bahwa investasi sedang berjalan
+        isInvesting = true;
+
+        // Nonaktifkan tombol yang diklik
+        clickedButton.interactable = false;
+
+        float timeRemaining = duration;
+        int initialCoins = GameManager.Instance.GetTotalCoins();
+        int finalCoins = initialCoins * multiplier;
+
+        // Menampilkan timer
+        while (timeRemaining > 0)
+        {
+            timeRemaining -= Time.deltaTime;
+            timerText.text = "Timer: " + Mathf.Ceil(timeRemaining).ToString() + "s";
+            yield return null;
+        }
+
+        // Update koin setelah timer selesai
+        GameManager.Instance.AddCoins(finalCoins - initialCoins);
+
+        // Timer selesai, kosongkan text timer
+        timerText.text = "";
+
+        // Aktifkan kembali tombol setelah timer selesai
+        clickedButton.interactable = true;
+
+        // Tandai bahwa investasi telah selesai
+        isInvesting = false;
+
+        // Update koin di UI ButtonHandler
+        UpdateCoinText();
+    }
+
+    private void UpdateCoinText()
+    {
+        // Update coin text di UI ButtonHandler
+        if (coinText != null)
+        {
+            coinText.text = "Coins: " + GameManager.Instance.GetTotalCoins();
+        }
+        else
+        {
+            Debug.LogError("coinText is not assigned in ButtonHandler.");
         }
     }
 }
