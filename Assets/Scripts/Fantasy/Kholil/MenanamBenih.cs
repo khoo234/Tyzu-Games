@@ -1,13 +1,16 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MenanamBenih : MonoBehaviour
 {
-    public GameObject seedPrefab; // Prefab benih yang akan ditanam
-    private bool canPlant = false; // Untuk memeriksa apakah player berada di area tanam
+    public GameObject seedPrefab;
+    private bool canPlant = false;
+    private bool isPlanted = false;
+    private List<GameObject> seedsInField = new List<GameObject>();
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && canPlant)
+        if (Input.GetKeyDown(KeyCode.E) && canPlant && !isPlanted)
         {
             PlantSeed();
         }
@@ -18,22 +21,19 @@ public class MenanamBenih : MonoBehaviour
         InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
         if (inventoryManager != null)
         {
-            Debug.Log("InventoryManager ditemukan");
-
             if (inventoryManager.HasSeeds())
             {
-                // Posisi tanam benih
-                Vector3 plantPosition = transform.position + Vector3.up; // Menyesuaikan posisi benih
+                Vector3 plantPosition = transform.position + Vector3.up;
                 GameObject seed = Instantiate(seedPrefab, plantPosition, Quaternion.identity);
+                seedsInField.Add(seed);
 
-                // Menonaktifkan collider benih agar tidak bisa diambil lagi
+                isPlanted = true;
                 Collider seedCollider = seed.GetComponent<Collider>();
                 if (seedCollider != null)
                 {
                     seedCollider.enabled = false;
                 }
 
-                // Kurangi benih dari inventory
                 inventoryManager.UseSeed();
                 Debug.Log("Benih berhasil ditanam. Jumlah benih tersisa: " + inventoryManager.GetSeedCount());
             }
@@ -52,8 +52,7 @@ public class MenanamBenih : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            canPlant = true; // Player memasuki area tanam
-            Debug.Log("Player berada di area tanam.");
+            canPlant = true;
         }
     }
 
@@ -61,8 +60,12 @@ public class MenanamBenih : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            canPlant = false; // Player keluar dari area tanam
-            Debug.Log("Player keluar dari area tanam.");
+            canPlant = false;
         }
+    }
+
+    public List<GameObject> GetSeedsInField()
+    {
+        return seedsInField;
     }
 }
