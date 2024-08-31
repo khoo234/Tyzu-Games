@@ -18,15 +18,7 @@ public class ButtonHandler : MonoBehaviour
 
     private void Start()
     {
-        // Nonaktifkan Panel Investasi saat awal permainan
-        if (panelInvestasi != null)
-        {
-            panelInvestasi.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("Panel Investasi not assigned in the Inspector.");
-        }
+        panelInvestasi.SetActive(false);
 
         // Menambahkan listener untuk tombol Investasi
         if (investasiButton != null)

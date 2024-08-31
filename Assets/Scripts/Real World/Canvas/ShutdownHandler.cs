@@ -14,7 +14,6 @@ public class ShutdownHandler : MonoBehaviour
 
     private void Start()
     {
-        // Pastikan panel investasi tidak aktif saat awal
         if (panelInvestasi != null)
         {
             panelInvestasi.SetActive(false);
@@ -24,7 +23,6 @@ public class ShutdownHandler : MonoBehaviour
             Debug.LogError("Panel Investasi not assigned in the Inspector.");
         }
 
-        // Pastikan tombol Play aktif saat awal
         if (playButton != null)
         {
             playButton.gameObject.SetActive(true);
@@ -34,7 +32,6 @@ public class ShutdownHandler : MonoBehaviour
             Debug.LogError("Play Button not assigned in the Inspector.");
         }
 
-        // Pastikan tombol Investasi aktif saat awal
         if (investasiButton != null)
         {
             investasiButton.gameObject.SetActive(true);
@@ -47,27 +44,12 @@ public class ShutdownHandler : MonoBehaviour
 
     public void OnShutdownButtonClick()
     {
-        // Mengubah kamera ke third-person
-        if (cameraChangeScript != null)
-        {
-            cameraChangeScript.SwitchToThirdPerson();
-        }
-        else
-        {
-            Debug.LogError("CameraChange script not assigned in the Inspector.");
-        }
+        cameraChangeScript.SwitchToThirdPerson();
+        canvas.SetActive(false);
+        panelInvestasi.SetActive(false);
+        playButton.gameObject.SetActive(true);
+        investasiButton.gameObject.SetActive(true);
 
-        // Menyembunyikan canvas
-        if (canvas != null)
-        {
-            canvas.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("Canvas not assigned in the Inspector.");
-        }
-
-        // Memindahkan karakter mundur
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -77,32 +59,6 @@ public class ShutdownHandler : MonoBehaviour
                 Vector3 moveBack = -player.transform.forward * moveBackDistance;
                 StartCoroutine(MoveBackCoroutine(characterController, moveBack));
             }
-            else
-            {
-                Debug.LogError("CharacterController component is missing on the player.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Player not found in the scene.");
-        }
-
-        // Reset Panel Investasi
-        if (panelInvestasi != null)
-        {
-            panelInvestasi.SetActive(false);
-        }
-
-        // Reset tombol Play
-        if (playButton != null)
-        {
-            playButton.gameObject.SetActive(true);
-        }
-
-        // Reset tombol Investasi
-        if (investasiButton != null)
-        {
-            investasiButton.gameObject.SetActive(true);
         }
     }
 

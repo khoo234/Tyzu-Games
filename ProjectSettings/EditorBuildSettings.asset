@@ -8,15 +8,21 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Playground.unity
     guid: e9017d5f96b9f09489b4b37e1d6eb914
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Real World.unity
     guid: 92cb47eb518e82646ade1d07f70ff354
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Fantasy.unity
     guid: d838fa405cc28f14cae5d28c281cf7e8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/F.unity
     guid: acac0e2b2d8c1af4e88d818a77e50a17
+  - enabled: 1
+    path: Assets/Scenes/Ayii/F Ayi.unity
+    guid: 4c648e439adb6b447b4c18c61b18b12c
+  - enabled: 1
+    path: Assets/Scenes/Ayii/Real World Ayi.unity
+    guid: 1bc1d508a80272d468cbc7c995252e9e
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}

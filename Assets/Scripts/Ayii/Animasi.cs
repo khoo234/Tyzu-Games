@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class MenuBuy : MonoBehaviour
+public class Animasi : MonoBehaviour
 {
     public GameObject uiElement;
     public float animationDuration = 0.5f;
