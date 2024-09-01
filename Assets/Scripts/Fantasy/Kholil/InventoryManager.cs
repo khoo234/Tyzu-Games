@@ -15,8 +15,6 @@ public class InventoryManager : MonoBehaviour
         {
             OpenInventory();
         }
-
-        // Pengecekan tombol untuk mengurangi benih dihapus
     }
 
     public void OpenInventory()

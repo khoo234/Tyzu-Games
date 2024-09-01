@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem; // Pastikan namespace ini tersedia
-using UnityEngine.UI; // Pastikan namespace ini tersedia untuk Canvas dan UI
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CubetesInteraction1 : MonoBehaviour
 {
-    public string cubetesType; // "Menanam" untuk Cubetes 1, "Shopping" untuk Cubetes 2
+    public string cubetesType;
     private bool playerInside = false; // Status apakah player berada di dalam cubetes
     private bool hasInteracted = false; // Status apakah player sudah melakukan interaksi
     private PlayerInput playerInput; // Referensi ke PlayerInput
@@ -20,27 +20,23 @@ public class CubetesInteraction1 : MonoBehaviour
 
     private void Start()
     {
-        // Temukan PlayerInput pada objek dengan tag "Player"
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             playerInput = player.GetComponent<PlayerInput>();
         }
 
-        // Pastikan Canvas dimulai dalam keadaan tidak aktif
         if (interactionCanvas != null)
         {
             interactionCanvas.gameObject.SetActive(false);
         }
 
-        // Ambil Renderer dari objek ini dan simpan material aslinya
         objectRenderer = GetComponent<Renderer>();
         if (objectRenderer != null)
         {
             originalMaterials = objectRenderer.materials;
         }
 
-        // Setup button click listener
         if (investmentButton != null)
         {
             investmentButton.onClick.AddListener(OnInvestmentButtonClick);
@@ -51,8 +47,8 @@ public class CubetesInteraction1 : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInside = true; // Tandai bahwa player masuk
-            hasInteracted = false; // Reset interaksi saat player masuk
+            playerInside = true;
+            hasInteracted = false;
         }
     }
 
@@ -60,25 +56,21 @@ public class CubetesInteraction1 : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInside = false; // Tandai bahwa player keluar
+            playerInside = false;
 
-            // Aktifkan kembali input pemain jika pemain keluar dari trigger
             if (playerInput != null)
             {
                 playerInput.enabled = true;
             }
 
-            // Nonaktifkan Canvas jika pemain keluar dari trigger
             if (interactionCanvas != null)
             {
                 interactionCanvas.gameObject.SetActive(false);
             }
 
-            // Nonaktifkan kursor mouse
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-            // Kembalikan material ke kondisi semula
             if (objectRenderer != null && originalMaterials != null)
             {
                 objectRenderer.materials = originalMaterials;

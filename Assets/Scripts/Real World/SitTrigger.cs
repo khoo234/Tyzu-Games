@@ -1,19 +1,23 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SitTrigger : MonoBehaviour
 {
-    public Animator playerAnimator; // Animator on the player
-    private bool isInTrigger = false; // Track if player is in the trigger area
-    public Transform sitPosition; // Desired position and rotation for sitting
-    private bool hasSat = false; // Track if the player has already sat down
+    public Animator playerAnimator;
+    public bool DalamTrigger = false;
+    public Transform sitPosition;
+    public bool Duduk = false;
+
+    [Header ("Masuk / Keluar Trigger")]
+    public UnityEvent Masuk;
+    public UnityEvent Keluar;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the trigger area.");
-            isInTrigger = true; // Player is in trigger area
-            playerAnimator = other.GetComponent<Animator>(); // Get Animator from player
+            DalamTrigger = true;
+            playerAnimator = other.GetComponent<Animator>();
         }
     }
 
@@ -21,34 +25,40 @@ public class SitTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player exited the trigger area.");
-            isInTrigger = false; // Player left the trigger area
-            hasSat = false; // Reset sit action when player leaves
+            DalamTrigger = false;
+            Duduk = false;
 
-            // Ensure player stands up when leaving the trigger area
             if (playerAnimator != null)
             {
-                Debug.Log("Exiting trigger, setting 'duduk' to false.");
-                playerAnimator.SetBool("duduk", false); // Stop sit animation
+                playerAnimator.SetBool("duduk", false);
             }
         }
     }
 
     private void Update()
     {
-        if (isInTrigger && !hasSat && Input.GetKeyDown(KeyCode.E))
+        if (DalamTrigger && !Duduk)
         {
-            Debug.Log("E key pressed. Triggering sit animation.");
-            if (playerAnimator != null)
+            Masuk?.Invoke();
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                // Set player position and rotation before sitting
-                PositionPlayerForSitting();
+                if (playerAnimator != null)
+                {
+                    PositionPlayerForSitting();
 
-                // Start sit animation
-                playerAnimator.SetBool("duduk", true);
+                    playerAnimator.SetBool("duduk", true);
 
-                hasSat = true; // Mark that the player has sat down
+                    Duduk = true;
+                }
             }
+        }
+        else if(DalamTrigger && Duduk)
+        {
+            Keluar?.Invoke();
+        }
+        else
+        {
+            Keluar?.Invoke();
         }
     }
 
@@ -58,10 +68,8 @@ public class SitTrigger : MonoBehaviour
         {
             Transform playerTransform = playerAnimator.transform;
 
-            // Set player's position to the desired sitting position
             playerTransform.position = sitPosition.position;
 
-            // Set player's rotation to match the target rotation
             playerTransform.rotation = sitPosition.rotation;
         }
     }
