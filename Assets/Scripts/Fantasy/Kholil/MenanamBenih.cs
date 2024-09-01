@@ -38,7 +38,7 @@ public class MenanamBenih : MonoBehaviour
                 {
                     seedCollider.enabled = false;
                 }
-                
+
                 // Kurangi benih dari inventory
                 inventoryManager.UseSeed();
                 Debug.Log("Benih berhasil ditanam. Jumlah benih tersisa: " + inventoryManager.GetSeedCount());
