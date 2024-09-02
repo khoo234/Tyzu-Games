@@ -305,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DarahSekarang: 100
   MaxDarah: 0
+  Damage: 0
   anim: {fileID: 5160120224241711192}
   Script: {fileID: 0}
 --- !u!1 &2845009048649236893

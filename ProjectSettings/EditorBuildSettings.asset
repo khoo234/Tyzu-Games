@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Prefabs/Polyart/PolyartStudio/DreamscapeMeadows/Scenes/Demo.unity
+    path: Assets/Polyart/PolyartStudio/DreamscapeMeadows/Scenes/Demo.unity
     guid: c955e02741ea51045828cd5cf1d842e9
   - enabled: 1
-    path: Assets/Scenes/Ayii/F Ayi.unity
+    path: Assets/Scenes/Ayii/Fantasy Ayi.unity
     guid: 4c648e439adb6b447b4c18c61b18b12c
   - enabled: 1
     path: Assets/Scenes/Ayii/Real World Bug Monitor.unity
