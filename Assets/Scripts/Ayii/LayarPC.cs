@@ -99,7 +99,7 @@ public class LayarPC : MonoBehaviour
 
     public void KeluarPC()
     {
-        LayarAsli.SetActive(true);
+        LayarAsli.SetActive(true);  
         PlayLayar.SetActive(false);
         InvestasiLayar.SetActive(false);
     }

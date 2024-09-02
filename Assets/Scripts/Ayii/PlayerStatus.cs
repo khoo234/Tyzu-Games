@@ -8,6 +8,9 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int DarahSekarang;
     [SerializeField] private int MaxDarah;
 
+    [Header ("Attack Information")]
+    [SerializeField] private int Damage;
+
     [Header("Animator")]
     public Animator anim;
 
@@ -27,6 +30,16 @@ public class PlayerStatus : MonoBehaviour
         {
             Mati();
         }
+        
+        if(Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Attack");
+        }
+    }
+
+    public void KasihDamage()
+    {
+
     }
 
     public void KenaDamage(int Jumlah)
