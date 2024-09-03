@@ -16,11 +16,7 @@ public class Animasi : MonoBehaviour
 
     void Start()
     {
-        if (uiElement != null)
-        {
-            uiRectTransform = uiElement.GetComponent<RectTransform>();
-            uiElement.SetActive(false);
-        }
+        uiRectTransform = uiElement.GetComponent<RectTransform>();
     }
 
     public void ShowUI()

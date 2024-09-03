@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Ladang
+  - Enemy
   layers:
   - Default
   - TransparentFX

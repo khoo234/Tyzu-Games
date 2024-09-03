@@ -44,11 +44,6 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    public void KasihDamage()
-    {
-
-    }
-
     public void KenaDamage(int Jumlah)
     {
         DarahSekarang -= Jumlah;

@@ -5763,32 +5763,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: 
   NPCName: 
+  script: {fileID: 0}
   activeDialog: 
   typewriting: 0
   delay: 0
   ParentObject: {fileID: 996618015}
   dialogPanel: {fileID: 1279814041}
-  playerImage: {fileID: 257502917}
-  npcImage: {fileID: 1925061534}
   nameText: {fileID: 2003507553}
   dialogText: {fileID: 1616842037}
+  PlayerEkspresi1: {fileID: 0}
+  PlayerEkspresi2: {fileID: 0}
+  PlayerEkspresi3: {fileID: 0}
+  PlayerEkspresi4: {fileID: 0}
+  PlayerEkspresi5: {fileID: 0}
+  NPCEkspresi1: {fileID: 0}
+  NPCEkspresi2: {fileID: 0}
+  NPCEkspresi3: {fileID: 0}
+  NPCEkspresi4: {fileID: 0}
+  NPCEkspresi5: {fileID: 0}
   AutoStartDialog: 1
   AutoFinishDialog: 1
   Selesai: 0
   NoOpsi: 1
+  MouseActive: 0
   isJawaban1Dialog: 0
   isJawaban2Dialog: 0
   isJawaban3Dialog: 0
   mulaiDialog:
   - character: 0
+    player: 0
+    npc: 0
     dialog: Siapa Kamu?
     boldSentences: []
     sebutPlayer: 0
   - character: 1
+    player: 0
+    npc: 0
     dialog: Aku adalah Asep
     boldSentences: []
     sebutPlayer: 0
   - character: 0
+    player: 0
+    npc: 0
     dialog: Hai Asep :3
     boldSentences: []
     sebutPlayer: 0

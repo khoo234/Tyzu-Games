@@ -4,15 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using Unity.VisualScripting;
 
 public class VisualDialog : MonoBehaviour
 {
     public enum Character { Player, NPC };
+    public enum EkspresiNPC { Ekspresi1, Ekspresi2, Ekspresi3, Ekspresi4, Ekspresi5};
+    public enum EkspresiPlayer { Ekspresi1, Ekspresi2, Ekspresi3, Ekspresi4, Ekspresi5 };
 
     [System.Serializable]
     public class DialogData
     {
         public Character character;
+
+        public EkspresiPlayer player;
+        public EkspresiNPC npc;
         [TextArea(5, 6)]
         public string dialog;
         public List<string> boldSentences;
@@ -22,6 +28,7 @@ public class VisualDialog : MonoBehaviour
     [Header ("Nama Karakter")]
     public string PlayerName;
     public string NPCName;
+    public NamaPlayer script;
 
     [Header ("Active Dialog")]
     [TextArea(5, 3)]
@@ -32,10 +39,23 @@ public class VisualDialog : MonoBehaviour
     [Header ("Visual Setting")]
     public GameObject ParentObject;
     public Image dialogPanel;
-    public Image playerImage;
-    public Image npcImage;
+
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogText;
+
+    [Header("Ekspresi Player")]
+    public GameObject PlayerEkspresi1;
+    public GameObject PlayerEkspresi2;
+    public GameObject PlayerEkspresi3;
+    public GameObject PlayerEkspresi4;
+    public GameObject PlayerEkspresi5;
+    
+    [Header("Ekspresi NPC")]
+    public GameObject NPCEkspresi1;
+    public GameObject NPCEkspresi2;
+    public GameObject NPCEkspresi3;
+    public GameObject NPCEkspresi4;
+    public GameObject NPCEkspresi5;
 
     [Header ("Dialog Setting")]
     public bool AutoStartDialog;
@@ -106,6 +126,7 @@ public class VisualDialog : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+        PlayerName = script.Nama;
     }
 
     void Update()
@@ -217,14 +238,14 @@ public class VisualDialog : MonoBehaviour
         /* PlayerName = targetKunci.NamaPlayer; */
         if (dialogData.character == Character.Player)
         {
-            playerImage.gameObject.SetActive(true);
-            npcImage.gameObject.SetActive(false);
+            SetPlayerEkspresi(dialogData.player);
+            MatikanEkspresiNPC();
             nameText.text = PlayerName;
         }
         else if (dialogData.character == Character.NPC)
         {
-            playerImage.gameObject.SetActive(false);
-            npcImage.gameObject.SetActive(true);
+            SetNPCEkspresi(dialogData.npc);
+            MatikanEkspresiPlayer();
             nameText.text = NPCName;
         }
 
@@ -340,5 +361,77 @@ public class VisualDialog : MonoBehaviour
                 childTransform.gameObject.SetActive(aValue);
             }
         }
+    }
+
+    void SetNPCEkspresi(EkspresiNPC ekspresi)
+    {
+        NPCEkspresi1.SetActive(false);
+        NPCEkspresi2.SetActive(false);
+        NPCEkspresi3.SetActive(false);
+        NPCEkspresi4.SetActive(false);
+        NPCEkspresi5.SetActive(false);
+
+        switch (ekspresi)
+        {
+            case EkspresiNPC.Ekspresi1:
+                NPCEkspresi1.SetActive(true);
+                break;
+            case EkspresiNPC.Ekspresi2:
+                NPCEkspresi2.SetActive(true);
+                break;
+            case EkspresiNPC.Ekspresi3:
+                NPCEkspresi3.SetActive(true);
+                break;
+            case EkspresiNPC.Ekspresi4:
+                NPCEkspresi4.SetActive(true);
+                break;
+            case EkspresiNPC.Ekspresi5:
+                NPCEkspresi5.SetActive(true);
+                break;
+        }
+    }
+
+    void SetPlayerEkspresi(EkspresiPlayer ekspresi)
+    {
+        PlayerEkspresi1.SetActive(false);
+        PlayerEkspresi2.SetActive(false);
+        PlayerEkspresi3.SetActive(false);
+        PlayerEkspresi4.SetActive(false);
+        PlayerEkspresi5.SetActive(false);
+
+        switch (ekspresi)
+        {
+            case EkspresiPlayer.Ekspresi1:
+                PlayerEkspresi1.SetActive(true);
+                break;
+            case EkspresiPlayer.Ekspresi2:
+                PlayerEkspresi2.SetActive(true);
+                break;
+            case EkspresiPlayer.Ekspresi3:
+                PlayerEkspresi3.SetActive(true);
+                break;
+            case EkspresiPlayer.Ekspresi4:
+                PlayerEkspresi4.SetActive(true);
+                break;
+            case EkspresiPlayer.Ekspresi5:
+                PlayerEkspresi5.SetActive(true);
+                break;
+        }
+    }
+    void MatikanEkspresiPlayer()
+    {
+        PlayerEkspresi1.SetActive (false);
+        PlayerEkspresi2.SetActive (false);
+        PlayerEkspresi3.SetActive (false);
+        PlayerEkspresi4.SetActive (false);
+        PlayerEkspresi5.SetActive (false);
+    }
+    void MatikanEkspresiNPC()
+    {
+        NPCEkspresi1.SetActive(false);
+        NPCEkspresi2.SetActive(false);
+        NPCEkspresi3.SetActive(false);
+        NPCEkspresi4.SetActive(false);
+        NPCEkspresi5.SetActive(false);
     }
 }
