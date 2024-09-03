@@ -42,6 +42,7 @@ public class VisualDialog : MonoBehaviour
     public bool AutoFinishDialog;
     public bool Selesai = false;
     public bool NoOpsi = false;
+    public bool MouseActive = false;
 
     [Header ("Dialog Yang Muncul")]
     public bool isJawaban1Dialog = false;
@@ -99,6 +100,11 @@ public class VisualDialog : MonoBehaviour
         if (AutoStartDialog)
         {
             StartDialog();
+        }
+        if (MouseActive)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -193,6 +199,9 @@ public class VisualDialog : MonoBehaviour
                 {
                     SetChildStatus(ParentObject, false);
                     FinishDialogEvent?.Invoke();
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                    MouseActive = false;
                 }
                 else
                 {

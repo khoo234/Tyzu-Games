@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -14,10 +15,16 @@ public class PlayerStatus : MonoBehaviour
     [Header("Animator")]
     public Animator anim;
 
+    [Header ("Info UI")]
+    public TMP_Text Min;
+    public TMP_Text Max;
+
     public HealthBar Script;
     private void Awake()
     {
         MaxDarah = DarahSekarang;
+        Max.text = MaxDarah.ToString();
+        Min.text = DarahSekarang.ToString();
     }
 
     void Update()
@@ -45,7 +52,7 @@ public class PlayerStatus : MonoBehaviour
     public void KenaDamage(int Jumlah)
     {
         DarahSekarang -= Jumlah;
-
+        Min.text = DarahSekarang.ToString();
         Script.SetHealth(DarahSekarang, MaxDarah);
     }
 
