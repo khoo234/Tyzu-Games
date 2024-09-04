@@ -63,6 +63,7 @@ public class VisualDialog : MonoBehaviour
     public bool Selesai = false;
     public bool NoOpsi = false;
     public bool MouseActive = false;
+    public bool MouseActiveSlsai = false;
 
     [Header ("Dialog Yang Muncul")]
     public bool isJawaban1Dialog = false;
@@ -126,11 +127,11 @@ public class VisualDialog : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        PlayerName = script.Nama;
     }
 
     void Update()
     {
+        PlayerName = script.Nama;
         if (Input.GetKeyDown(KeyCode.Mouse0) && isDialogRunning)
         {
             if (typewriting && DialogCoroutine != null)
@@ -220,9 +221,17 @@ public class VisualDialog : MonoBehaviour
                 {
                     SetChildStatus(ParentObject, false);
                     FinishDialogEvent?.Invoke();
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
-                    MouseActive = false;
+                    if(MouseActiveSlsai)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                        MouseActive = false;
+                    }
+                    else
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                    }
                 }
                 else
                 {
