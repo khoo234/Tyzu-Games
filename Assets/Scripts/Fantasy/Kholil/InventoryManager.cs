@@ -8,9 +8,17 @@ public class InventoryManager : MonoBehaviour
 {
     [Header("Script")]
     public MonoBehaviour playerMovementScript;
+    public Exchange exchangeScript;
 
     [Header("Jumlah Seed Basic")]
     public TextMeshProUGUI seedCountText;
+
+    [Header("Additional Counts")]
+    public TextMeshProUGUI monsterCountText;
+    public TextMeshProUGUI bibitCountText;
+    public TextMeshProUGUI pupukCountText;
+    public TextMeshProUGUI koinFantasyText;
+    public TextMeshProUGUI coinText;
 
     [Header("Fungsi Backpack")]
     public UnityEvent BukaBackPack;
@@ -29,6 +37,11 @@ public class InventoryManager : MonoBehaviour
 
     private bool isInventoryOpen = false;
     private int seedCount = 0;
+    private int monsterCount = 0;
+    private int bibitCount = 0;
+    private int pupukCount = 0;
+    private int KoinFantasy = 0;
+    private int Coin = 0;
 
     void Start()
     {
@@ -40,7 +53,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (!isInventoryOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab) && (exchangeScript == null || !exchangeScript.exchangeCanvas.gameObject.activeSelf))
             {
                 OpenInventory();
             }
@@ -62,7 +75,7 @@ public class InventoryManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
         playerMovementScript.enabled = false;
-        UpdateSeedCountUI();
+        UpdateUI();
     }
 
     public void CloseInventory()
@@ -99,11 +112,130 @@ public class InventoryManager : MonoBehaviour
         return seedCount;
     }
 
+    public void AddMonster(int amount)
+    {
+        monsterCount += amount;
+        UpdateMonsterCountUI();
+    }
+
+    public int GetMonsterCount()
+    {
+        return monsterCount;
+    }
+
+    public void AddBibit(int amount)
+    {
+        bibitCount += amount;
+        UpdateBibitCountUI();
+    }
+
+    public void UseBibit()
+    {
+        if (bibitCount > 0)
+        {
+            bibitCount--;
+            UpdateBibitCountUI();
+        }
+    }
+
+    public int GetBibitCount()
+    {
+        return bibitCount;
+    }
+
+    public void AddPupuk(int amount)
+    {
+        pupukCount += amount;
+        UpdatePupukCountUI();
+    }
+
+    public int GetPupukCount()
+    {
+        return pupukCount;
+    }
+
+    public void AddKoinFantasy(int amount)
+    {
+        KoinFantasy += amount;
+        UpdateKoinFantasyUI();
+    }
+
+    public int GetKoinFantasy()
+    {
+        return KoinFantasy;
+    }
+
+    public void AddCoin(int amount)
+    {
+        Coin += amount;
+        UpdateCoinUI();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.AddCoins(amount);
+        }
+    }
+
+    public int GetCoin()
+    {
+        return Coin;
+    }
+
+    private void UpdateUI()
+    {
+        UpdateSeedCountUI();
+        UpdateMonsterCountUI();
+        UpdateBibitCountUI();
+        UpdatePupukCountUI();
+        UpdateKoinFantasyUI();
+        UpdateCoinUI();
+    }
+
     private void UpdateSeedCountUI()
     {
         if (seedCountText != null)
         {
-            seedCountText.text = seedCount.ToString();
+            seedCountText.text = "Benih: " + seedCount;
+        }
+    }
+
+    private void UpdateMonsterCountUI()
+    {
+        if (monsterCountText != null)
+        {
+            monsterCountText.text = "Monster: " + monsterCount;
+        }
+    }
+
+    private void UpdateBibitCountUI()
+    {
+        if (bibitCountText != null)
+        {
+            bibitCountText.text = "Bibit: " + bibitCount;
+        }
+    }
+
+    private void UpdatePupukCountUI()
+    {
+        if (pupukCountText != null)
+        {
+            pupukCountText.text = "Pupuk: " + pupukCount;
+        }
+    }
+
+    private void UpdateKoinFantasyUI()
+    {
+        if (koinFantasyText != null)
+        {
+            koinFantasyText.text = "Koin Fantasy: " + KoinFantasy;
+        }
+    }
+
+    private void UpdateCoinUI()
+    {
+        if (coinText != null)
+        {
+            coinText.text = "Rupiah: " + Coin;
         }
     }
 

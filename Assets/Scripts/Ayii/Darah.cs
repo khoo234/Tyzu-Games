@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Darah : MonoBehaviour
@@ -7,40 +5,56 @@ public class Darah : MonoBehaviour
     [Header("Darah")]
     [SerializeField] private int DarahSekarang;
     [SerializeField] private int MaxDarah;
+    public Animator anim;
 
     public HealthBar Script;
+    private InventoryManager inventoryManager;
+    private Benih benih;
+    public bool isDead = false;
+
     private void Awake()
     {
         MaxDarah = DarahSekarang;
     }
 
-    void Start()
+    private void Start()
     {
-        Script.SetHealth(DarahSekarang, MaxDarah);
-    }
+        Script = FindObjectOfType<HealthBar>();
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            KenaDamage(10);
-        }
-        if (DarahSekarang <= 0)
-        {
-            Mati();
-        }
+        Script.SetHealth(DarahSekarang, MaxDarah);
+        benih = FindAnyObjectByType<Benih>();
+
+        inventoryManager = FindObjectOfType<InventoryManager>();
     }
 
     public void KenaDamage(int Jumlah)
     {
-        DarahSekarang -= Jumlah;
+        if (isDead) return;
 
+        DarahSekarang -= Jumlah;
         Script.SetHealth(DarahSekarang, MaxDarah);
+        if (DarahSekarang <= 0)
+        {
+            DarahSekarang = 0;
+            isDead = true;
+            HandleDeath();
+        }
+        else
+        {
+            anim.SetTrigger("Hit");
+        }
     }
 
-    public void Mati()
+    private void HandleDeath()
     {
-        float destroyDelay = Random.value;
-        Destroy(gameObject, destroyDelay);
+        anim.SetBool("Die", true);
+        Destroy(gameObject, 2f);
+
+        inventoryManager.AddMonster(1);
+    }
+
+    public void SetBenih(Benih newBenih)
+    {
+        benih = newBenih;
     }
 }

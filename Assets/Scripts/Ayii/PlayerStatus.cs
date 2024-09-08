@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -10,21 +9,17 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int MaxDarah;
 
     [Header ("Attack Information")]
-    [SerializeField] private int Damage;
+    public int Damage;
+    public int Damage2;
+    public bool lv2;
 
     [Header("Animator")]
     public Animator anim;
-
-    [Header ("Info UI")]
-    public TMP_Text Min;
-    public TMP_Text Max;
 
     public HealthBar Script;
     private void Awake()
     {
         MaxDarah = DarahSekarang;
-        Max.text = MaxDarah.ToString();
-        Min.text = DarahSekarang.ToString();
     }
 
     void Update()
@@ -40,20 +35,24 @@ public class PlayerStatus : MonoBehaviour
         
         if(Input.GetMouseButtonDown(0))
         {
-            anim.SetTrigger("Attack");
+            anim.SetTrigger("Ulti");
         }
+        
     }
+
+    
 
     public void KenaDamage(int Jumlah)
     {
         DarahSekarang -= Jumlah;
-        Min.text = DarahSekarang.ToString();
+        anim.SetTrigger("Hit");
+
         Script.SetHealth(DarahSekarang, MaxDarah);
     }
 
     public void Mati()
     {
-        /*anim.SetBool("Mati", true);*/
+        anim.SetBool("Death", true);
         Debug.Log("Kamu Mati!");
     }
 }
