@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    public int Damage;
+    public int Damage2;
+    public int Damage3;
+    public bool lv2;
+    public bool lv3;
     public Animator animator;
     private ThirdPersonController playerMovement;  // Referensi ke skrip pergerakan pemain
 
@@ -31,9 +36,19 @@ public class Attack : MonoBehaviour
             animator.SetTrigger("Attack");
             StartCoroutine(ResetMovementAfterAttack(attackDelay));  // Gunakan delay yang dapat diatur
         }
+        if (lv2 && !lv3)
+        {
+            Damage = Damage2;  // Level 2 aktif, ganti damage
+        }
+        else if (lv3)
+        {
+            Damage = Damage3;  // Level 3 aktif, ganti damage
+        }
+
     }
 
-    void SpawnattackVFX1()
+    // Dipanggil oleh Animation Event
+    public void SpawnattackVFX1()
     {
         if (vfxPrefab1 != null && vfxSpawnPoint1 != null)
         {

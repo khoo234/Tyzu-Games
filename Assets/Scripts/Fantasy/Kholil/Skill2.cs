@@ -32,11 +32,6 @@ public class Skill2 : MonoBehaviour
             animator.SetTrigger("Skill2");
             StartCoroutine(ResetMovementAfterAttack(attackDelay));
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2)) // Press '2' to increase skill level
-        {
-            LevelUpSkill();
-        }
     }
 
     public void SpawnSkill2VFX1()
@@ -118,18 +113,19 @@ public class Skill2 : MonoBehaviour
         return GetArmorDuration(); // VFX lifetime matches armor duration
     }
 
-    private void LevelUpSkill()
+    // Method to set skill level from another script
+    public void SetSkillLevel(int level)
     {
-        if (skillLevel < 3) // Level up to level 3
+        if (level >= 1 && level <= 3)
         {
-            skillLevel++;
-            Debug.Log($"Skill level increased to {skillLevel}.");
+            skillLevel = level;
+            Debug.Log($"Skill level set to {skillLevel}.");
             Debug.Log($"New Armor Duration: {GetArmorDuration()} seconds.");
             Debug.Log($"New Armor Value: {GetArmorValue()}.");
         }
         else
         {
-            Debug.Log("Skill is already at maximum level.");
+            Debug.LogError("Invalid skill level.");
         }
     }
 }

@@ -6,7 +6,9 @@ public class Ulti : MonoBehaviour
 {
     public int Damage;
     public int Damage2;
+    public int Damage3;
     public bool lv2;
+    public bool lv3;
     public Animator animator;
     private ThirdPersonController playerMovement;  // Referensi ke skrip pergerakan pemain
     public float attackDelay = 0.5f; // Durasi delay setelah serangan sebelum pemain bisa bergerak lagi
@@ -62,7 +64,7 @@ public class Ulti : MonoBehaviour
                 StartCoroutine(SpawnAndFollowVFX1());  // Panggil Coroutine untuk memunculkan dan mengikuti enemy
                 StartCoroutine(ResetMovementAfterAttack(attackDelay));  // Gunakan delay yang dapat diatur
 
-                // Aplikasikan stun ke musuh berdasarkan level
+                // Aplikasikan stun dan damage ke musuh berdasarkan level
                 ApplyStun();
             }
             else
@@ -70,19 +72,48 @@ public class Ulti : MonoBehaviour
                 Debug.LogWarning("Enemy belum ditemukan!");
             }
         }
-        if (!lv2)
+
+        // Menambahkan logika untuk level 2 dan level 3
+        if (currentLevel == 2 && !lv2)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            lv2 = true;  // Tandai bahwa level 2 telah dicapai
+            Damage = Damage2;
+            Debug.Log("Skill Ulti LV2");
+        }
+        else if (currentLevel == 3 && lv2 && !lv3)
+        {
+            lv3 = true;  // Tandai bahwa level 3 telah dicapai
+            Damage = Damage3;
+            Debug.Log("Skill Ulti LV3");
+        }
+    }
+
+    // Method to set the skill level
+    public void SetSkillLevel(int level)
+    {
+        // Validate and set the skill level
+        if (level >= 1 && level <= 3)
+        {
+            currentLevel = level;
+            Debug.Log("Skill level set to: " + currentLevel);
+
+            // Update the damage and other properties based on the level
+            if (currentLevel == 2 && !lv2)
             {
+                lv2 = true;  // Tandai bahwa level 2 telah dicapai
                 Damage = Damage2;
-                Debug.Log("LV2");
+                Debug.Log("Skill Ulti LV2");
+            }
+            else if (currentLevel == 3 && lv2 && !lv3)
+            {
+                lv3 = true;  // Tandai bahwa level 3 telah dicapai
+                Damage = Damage3;
+                Debug.Log("Skill Ulti LV3");
             }
         }
-        // Naik level jika tombol 3 ditekan, hanya sampai level 3
-        if (Input.GetKeyDown(KeyCode.Alpha3) && currentLevel < 3)
+        else
         {
-            currentLevel++;
-            Debug.Log("Naik ke Level: " + currentLevel);
+            Debug.LogWarning("Invalid skill level: " + level);
         }
     }
 

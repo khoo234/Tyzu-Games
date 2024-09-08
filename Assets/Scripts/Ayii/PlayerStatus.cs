@@ -37,14 +37,7 @@ public class PlayerStatus : MonoBehaviour
         {
             anim.SetTrigger("Ulti");
         }
-        if (!lv2)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                Damage = Damage2;
-                Debug.Log("LV2");
-            }
-        }
+        
     }
 
     

@@ -20,6 +20,8 @@ public class InventoryManager : MonoBehaviour
     private int pupukCount = 0;  // Separate count for pupuk
     private int KoinFantasy = 0;  // Koin Fantasy count
     private int Coin = 0;  // Coin count
+    private int AttackSkill2 = 0;
+    private int AttackSkill3 = 0;
 
     void Update()
     {
