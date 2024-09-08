@@ -8,6 +8,11 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int DarahSekarang;
     [SerializeField] private int MaxDarah;
 
+    [Header ("Attack Information")]
+    public int Damage;
+    public int Damage2;
+    public bool lv2;
+
     [Header("Animator")]
     public Animator anim;
 
@@ -27,18 +32,34 @@ public class PlayerStatus : MonoBehaviour
         {
             Mati();
         }
+        
+        if(Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Ulti");
+        }
+        if (!lv2)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Damage = Damage2;
+                Debug.Log("LV2");
+            }
+        }
     }
+
+    
 
     public void KenaDamage(int Jumlah)
     {
         DarahSekarang -= Jumlah;
+        anim.SetTrigger("Hit");
 
         Script.SetHealth(DarahSekarang, MaxDarah);
     }
 
     public void Mati()
     {
-        /*anim.SetBool("Mati", true);*/
+        anim.SetBool("Death", true);
         Debug.Log("Kamu Mati!");
     }
 }

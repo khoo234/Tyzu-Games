@@ -3,13 +3,23 @@ using UnityEngine;
 public class MenanamBenih : MonoBehaviour
 {
     public GameObject seedPrefab;
+    public GameObject waterVFXPrefab;
     public bool canPlant = false;
+
+    private Benih plantedSeed;
+    private bool hasPlantedSeed = false; // Flag untuk mengecek apakah sudah menanam benih
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && canPlant)
+        if (Input.GetKeyDown(KeyCode.E) && canPlant && !hasPlantedSeed)
         {
             PlantSeed();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && canPlant && plantedSeed != null)
+        {
+            Debug.Log("Menyiram");
+            WaterSeed();
         }
     }
 
@@ -18,30 +28,48 @@ public class MenanamBenih : MonoBehaviour
         InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
         if (inventoryManager != null)
         {
-            Debug.Log("InventoryManager ditemukan");
-
             if (inventoryManager.HasSeeds())
             {
                 Vector3 plantPosition = transform.position + Vector3.up;
-                GameObject seed = Instantiate(seedPrefab, plantPosition, Quaternion.identity);
 
-                Benih benihScript = seed.GetComponent<Benih>();
-                if (benihScript != null)
+                Collider[] colliders = Physics.OverlapSphere(plantPosition, 0.1f);
+                Benih existingSeed = null;
+
+                foreach (Collider collider in colliders)
                 {
-                    // Mengatur Ditanam menjadi true
-                    benihScript.Ditanam = true;
+                    Benih benih = collider.GetComponent<Benih>();
+                    if (benih != null)
+                    {
+                        existingSeed = benih;
+                        break;
+                    }
                 }
 
-                // Menonaktifkan collider benih agar tidak bisa diambil lagi
-                Collider seedCollider = seed.GetComponent<Collider>();
-                if (seedCollider != null)
+                if (existingSeed == null)
                 {
-                    seedCollider.enabled = false;
-                }
+                    GameObject seed = Instantiate(seedPrefab, plantPosition, Quaternion.identity);
 
-                // Kurangi benih dari inventory
-                inventoryManager.UseSeed();
-                Debug.Log("Benih berhasil ditanam. Jumlah benih tersisa: " + inventoryManager.GetSeedCount());
+                    Benih benihScript = seed.GetComponent<Benih>();
+                    if (benihScript != null)
+                    {
+                        benihScript.Ditanam = true;
+                        plantedSeed = benihScript;
+                        hasPlantedSeed = true; // Menandai bahwa benih sudah ditanam
+
+                        Collider seedCollider = seed.GetComponent<Collider>();
+                        if (seedCollider != null)
+                        {
+                            seedCollider.enabled = false;
+                        }
+
+                        inventoryManager.UseSeed();
+                        Debug.Log("Benih berhasil ditanam. Jumlah benih tersisa: " + inventoryManager.GetSeedCount());
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Benih sudah ada di posisi ini.");
+                }
             }
             else
             {
@@ -54,11 +82,24 @@ public class MenanamBenih : MonoBehaviour
         }
     }
 
+    void WaterSeed()
+    {
+        if (plantedSeed != null)
+        {
+            GameObject waterVFX = Instantiate(waterVFXPrefab, transform.position, Quaternion.identity);
+            Destroy(waterVFX, 2f);
+
+            plantedSeed.StartWatering();
+            plantedSeed = null; // Reset plantedSeed setelah menyiram
+            hasPlantedSeed = false; // Reset flag setelah menyiram
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            canPlant = true; // Player memasuki area tanam
+            canPlant = true;
             Debug.Log("Player berada di area tanam.");
         }
     }
@@ -67,7 +108,7 @@ public class MenanamBenih : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            canPlant = false; // Player keluar dari area tanam
+            canPlant = false;
             Debug.Log("Player keluar dari area tanam.");
         }
     }
