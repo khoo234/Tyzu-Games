@@ -3,18 +3,18 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; // Singleton instance
-    public TMP_Text coinText; // Referensi ke TMP_Text component di Panel Investasi
+    public static GameManager Instance;
+    public TMP_Text coinText;
+    public TMP_Text CoinTampilkan;
 
-    private int totalCoins = 0; // Jumlah koin yang dikumpulkan
+    private int totalCoins = 0;
 
     private void Awake()
     {
-        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Jangan hancurkan GameManager saat berpindah scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Muat data koin dari PlayerPrefs
         totalCoins = PlayerPrefs.GetInt("TotalCoins", 0);
         UpdateCoinText();
     }
@@ -33,7 +32,6 @@ public class GameManager : MonoBehaviour
     {
         totalCoins += amount;
         UpdateCoinText();
-        // Simpan jumlah koin ke PlayerPrefs
         PlayerPrefs.SetInt("TotalCoins", totalCoins);
         Debug.Log("Coins Added: " + amount + ". Total Coins: " + totalCoins);
     }
@@ -48,6 +46,7 @@ public class GameManager : MonoBehaviour
         if (coinText != null)
         {
             coinText.text = "Koin: " + totalCoins;
+            CoinTampilkan.text = totalCoins.ToString();
         }
         else
         {
