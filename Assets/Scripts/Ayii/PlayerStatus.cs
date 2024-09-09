@@ -8,11 +8,6 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int DarahSekarang;
     [SerializeField] private int MaxDarah;
 
-    [Header ("Attack Information")]
-    public int Damage;
-    public int Damage2;
-    public bool lv2;
-
     [Header("Animator")]
     public Animator anim;
 

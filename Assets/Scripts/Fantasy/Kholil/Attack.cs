@@ -5,20 +5,25 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    [Header ("Damage Serangan")]
     public int Damage;
     public int Damage2;
     public int Damage3;
+
+    [Header("Level Serangan")]
     public bool lv2;
     public bool lv3;
+
+    [Header("Animator Serangan")]
     public Animator animator;
     private ThirdPersonController playerMovement;  // Referensi ke skrip pergerakan pemain
 
-    // VFX 1
+    [Header("VFX")]
     public GameObject vfxPrefab1;  // Prefab VFX 1
     public Transform vfxSpawnPoint1;  // Posisi di mana VFX 1 akan muncul
     public float vfxLifetime1 = 2f;  // Waktu sebelum VFX 1 dihancurkan
 
-    // Durasi delay setelah serangan sebelum pemain bisa bergerak lagi
+    [Header("Delay Serangan")]
     public float attackDelay = 0.5f;
 
     void Start()
@@ -36,29 +41,16 @@ public class Attack : MonoBehaviour
             animator.SetTrigger("Attack");
             StartCoroutine(ResetMovementAfterAttack(attackDelay));  // Gunakan delay yang dapat diatur
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (lv2 && !lv3)
         {
-            // Cek level yang aktif
-            if (!lv2 && !lv3)
-            {
-                Damage = Damage2;
-                lv2 = true;  // Tingkatkan ke level 2
-                Debug.Log("Skill 1 LV2 Aktif");
-            }
-            else if (lv2 && !lv3)
-            {
-                Damage = Damage3;
-                lv3 = true;  // Tingkatkan ke level 3
-                Debug.Log("Skill 1 LV3 Aktif");
-            }
-            else if (lv2 && lv3)
-            {
-                Debug.Log("Skill sudah di level maksimal (LV3)");
-            }
+            Damage = Damage2;  // Level 2 aktif, ganti damage
         }
-    }
+        else if (lv3)
+        {
+            Damage = Damage3;  // Level 3 aktif, ganti damage
+        }
 
+    }
 
     // Dipanggil oleh Animation Event
     public void SpawnattackVFX1()

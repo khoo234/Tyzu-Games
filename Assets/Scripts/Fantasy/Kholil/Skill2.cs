@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class Skill2 : MonoBehaviour
 {
+    [Header("Animator")]
     public Animator animator;
     private ThirdPersonController playerMovement;
+
+    [Header("VFX")]
     public GameObject vfxPrefab1;
     public Transform vfxSpawnPoint1;
+
+    [Header("Menyerang Delay")]
     public float attackDelay = 0.5f;
+
+    [Header("Durasi Armor")]
     public float baseArmorDuration = 5f; // Base duration for armor
-    public float armorDurationLevel2 = 10f; // Armor duration for level 2
-    public float armorDurationLevel3 = 15f; // Armor duration for level 3
     public int baseArmorValue = 10; // Base value for armor
+
+    [Header("Armor Level 2")]
+    public float armorDurationLevel2 = 10f; // Armor duration for level 2
     public int armorValueLevel2 = 20; // Armor value for level 2
+
+    [Header("Armor Level 3")]
+    public float armorDurationLevel3 = 15f; // Armor duration for level 3
     public int armorValueLevel3 = 30; // Armor value for level 3
+
     private bool isArmorActive = false;
-    private int skillLevel = 1; // Skill level (1 for initial, 2 for level 2, 3 for level 3)
+    public int skillLevel = 1; // Skill level (1 for initial, 2 for level 2, 3 for level 3)
 
     void Start()
     {
@@ -31,11 +43,6 @@ public class Skill2 : MonoBehaviour
             playerMovement.enabled = false;
             animator.SetTrigger("Skill2");
             StartCoroutine(ResetMovementAfterAttack(attackDelay));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2)) // Press '2' to increase skill level
-        {
-            LevelUpSkill();
         }
     }
 
@@ -118,18 +125,19 @@ public class Skill2 : MonoBehaviour
         return GetArmorDuration(); // VFX lifetime matches armor duration
     }
 
-    private void LevelUpSkill()
+    // Method to set skill level from another script
+    public void SetSkillLevel(int level)
     {
-        if (skillLevel < 3) // Level up to level 3
+        if (level >= 1 && level <= 3)
         {
-            skillLevel++;
-            Debug.Log($"Skill level increased to {skillLevel}.");
+            skillLevel = level;
+            Debug.Log($"Skill level set to {skillLevel}.");
             Debug.Log($"New Armor Duration: {GetArmorDuration()} seconds.");
             Debug.Log($"New Armor Value: {GetArmorValue()}.");
         }
         else
         {
-            Debug.Log("Skill is already at maximum level.");
+            Debug.LogError("Invalid skill level.");
         }
     }
 }

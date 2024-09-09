@@ -13,7 +13,7 @@ public class RFX1_TransformMotion : MonoBehaviour
     public float RandomMoveSpeedScale = 0;
     public GameObject Target;
 
-    private PlayerStatus playerStatus;
+    private Attack attackplayer;
 
     public LayerMask CollidesWith = ~0;
 
@@ -47,7 +47,7 @@ public class RFX1_TransformMotion : MonoBehaviour
 
     void Start()
     {
-        playerStatus = FindAnyObjectByType<PlayerStatus>(); 
+        attackplayer = FindAnyObjectByType<Attack>(); 
         t = transform;
         if (Target != null) targetT = Target.transform;
         startQuaternion = t.rotation;
@@ -88,7 +88,7 @@ public class RFX1_TransformMotion : MonoBehaviour
             UpdateWorldPosition();
         }
         else dropFirstFrameForFixUnityBugWithParticles = false;
-        damagee = playerStatus.Damage;
+        damagee = attackplayer.Damage;
 
 
        

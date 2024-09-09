@@ -19011,7 +19011,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4176865789088248}
-  - component: {fileID: 114049858913762966}
+  - component: {fileID: 6381432282648099166}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Untagged
@@ -19042,7 +19042,7 @@ Transform:
   m_Father: {fileID: 4987679361356038}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114049858913762966
+--- !u!114 &6381432282648099166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19051,7 +19051,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1410646877687042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 151e5fb4355af6c4ab88423606b59ab8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3968fd7c70668984c96c178e3d5bc962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Distance: 30
@@ -19060,8 +19060,6 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   Target: {fileID: 0}
-  CurrentSkillLevel: 1
-  Level2: 0
   CollidesWith:
     serializedVersion: 2
     m_Bits: 136
@@ -19075,8 +19073,9 @@ MonoBehaviour:
   - {fileID: 1587812329679436}
   HUE: -1
   CollidedInstances: []
-  DamageLevel1: 20
-  DamageLevel2: 80
+  DamageLevel1: 0
+  DamageLevel2: 0
+  damagee: 0
 --- !u!1 &1533523717697602
 GameObject:
   m_ObjectHideFlags: 0

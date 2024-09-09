@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class MenanamBenih : MonoBehaviour
 {
-    public GameObject seedPrefab;
+    public GameObject seedPrefab;       // Prefab untuk benih biasa
+    public GameObject seedRarePrefab;   // Prefab untuk benih rare
     public GameObject waterVFXPrefab;
+    public GameObject fertilizerPrefab; // Prefab untuk pupuk
     public bool canPlant = false;
+    public bool isSeedRareField = false; // Menandakan apakah ladang ini untuk benih rare
 
     private Benih plantedSeed;
     private bool hasPlantedSeed = false; // Flag untuk mengecek apakah sudah menanam benih
+    private bool isFertilized = false; // Flag untuk mengecek apakah pupuk sudah digunakan
 
     void Update()
     {
@@ -16,8 +20,20 @@ public class MenanamBenih : MonoBehaviour
             PlantSeed();
         }
 
+        if (Input.GetKeyDown(KeyCode.Q) && canPlant && isSeedRareField && plantedSeed != null)
+        {
+            Debug.Log("Memberi pupuk");
+            UseFertilizer();
+        }
+
         if (Input.GetKeyDown(KeyCode.F) && canPlant && plantedSeed != null)
         {
+            if (isSeedRareField && !isFertilized)
+            {
+                Debug.Log("Harus memberi pupuk terlebih dahulu.");
+                return;
+            }
+
             Debug.Log("Menyiram");
             WaterSeed();
         }
@@ -28,52 +44,62 @@ public class MenanamBenih : MonoBehaviour
         InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
         if (inventoryManager != null)
         {
-            if (inventoryManager.HasSeeds())
+            GameObject seedToPlant = null;
+
+            // Pilih prefab benih yang sesuai dengan jenis ladang
+            if (isSeedRareField && inventoryManager.HasSeedRare())
             {
-                Vector3 plantPosition = transform.position + Vector3.up;
+                seedToPlant = seedRarePrefab;
+                inventoryManager.UseSeedRare(); // Mengurangi jumlah benih rare dari inventory
+            }
+            else if (!isSeedRareField && inventoryManager.HasSeeds())
+            {
+                seedToPlant = seedPrefab;
+                inventoryManager.UseSeed(); // Mengurangi jumlah benih biasa dari inventory
+            }
+            else
+            {
+                Debug.LogWarning("Tidak ada benih yang sesuai untuk ditanam.");
+                return;
+            }
 
-                Collider[] colliders = Physics.OverlapSphere(plantPosition, 0.1f);
-                Benih existingSeed = null;
+            Vector3 plantPosition = transform.position + Vector3.up;
+            Collider[] colliders = Physics.OverlapSphere(plantPosition, 0.1f);
+            Benih existingSeed = null;
 
-                foreach (Collider collider in colliders)
+            foreach (Collider collider in colliders)
+            {
+                Benih benih = collider.GetComponent<Benih>();
+                if (benih != null)
                 {
-                    Benih benih = collider.GetComponent<Benih>();
-                    if (benih != null)
-                    {
-                        existingSeed = benih;
-                        break;
-                    }
+                    existingSeed = benih;
+                    break;
                 }
+            }
 
-                if (existingSeed == null)
+            if (existingSeed == null)
+            {
+                GameObject seed = Instantiate(seedToPlant, plantPosition, Quaternion.identity);
+
+                Benih benihScript = seed.GetComponent<Benih>();
+                if (benihScript != null)
                 {
-                    GameObject seed = Instantiate(seedPrefab, plantPosition, Quaternion.identity);
+                    benihScript.Ditanam = true;
+                    plantedSeed = benihScript;
+                    hasPlantedSeed = true; // Menandai bahwa benih sudah ditanam
 
-                    Benih benihScript = seed.GetComponent<Benih>();
-                    if (benihScript != null)
+                    Collider seedCollider = seed.GetComponent<Collider>();
+                    if (seedCollider != null)
                     {
-                        benihScript.Ditanam = true;
-                        plantedSeed = benihScript;
-                        hasPlantedSeed = true; // Menandai bahwa benih sudah ditanam
-
-                        Collider seedCollider = seed.GetComponent<Collider>();
-                        if (seedCollider != null)
-                        {
-                            seedCollider.enabled = false;
-                        }
-
-                        inventoryManager.UseSeed();
-                        Debug.Log("Benih berhasil ditanam. Jumlah benih tersisa: " + inventoryManager.GetSeedCount());
+                        seedCollider.enabled = false;
                     }
-                }
-                else
-                {
-                    Debug.LogWarning("Benih sudah ada di posisi ini.");
+
+                    Debug.Log("Benih berhasil ditanam.");
                 }
             }
             else
             {
-                Debug.LogWarning("Tidak ada benih untuk ditanam.");
+                Debug.LogWarning("Benih sudah ada di posisi ini.");
             }
         }
         else
@@ -92,8 +118,33 @@ public class MenanamBenih : MonoBehaviour
             plantedSeed.StartWatering();
             plantedSeed = null; // Reset plantedSeed setelah menyiram
             hasPlantedSeed = false; // Reset flag setelah menyiram
+            isFertilized = false; // Reset status pupuk setelah menyiram
         }
     }
+
+    void UseFertilizer()
+    {
+        if (plantedSeed != null)
+        {
+            InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
+            if (inventoryManager != null && inventoryManager.HasPupuk())
+            {
+                inventoryManager.UsePupuk(); // Mengurangi pupuk dari inventory
+                isFertilized = true; // Tandai bahwa pupuk sudah digunakan
+                Debug.Log("Pupuk digunakan.");
+
+                // Menampilkan efek pupuk sedikit ke atas dari posisi tanaman
+                Vector3 fertilizerPosition = transform.position + Vector3.up * 1.0f; // Ubah 1.0f sesuai dengan offset yang diinginkan
+                GameObject fertilizerVFX = Instantiate(fertilizerPrefab, fertilizerPosition, Quaternion.identity);
+                Destroy(fertilizerVFX, 2f); // Hapus efek setelah 2 detik
+            }
+            else
+            {
+                Debug.LogWarning("Pupuk tidak cukup.");
+            }
+        }
+    }
+
 
     void OnTriggerEnter(Collider other)
     {

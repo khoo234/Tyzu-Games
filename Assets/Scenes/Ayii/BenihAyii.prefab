@@ -2926,7 +2926,7 @@ GameObject:
   - component: {fileID: 8874543976945290546}
   - component: {fileID: 8874543976945290545}
   - component: {fileID: 8874543976945290544}
-  - component: {fileID: 8874543976945290551}
+  - component: {fileID: 5660939155750549781}
   m_Layer: 0
   m_Name: BenihAyii
   m_TagString: Seed
@@ -2980,7 +2980,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8874543976945290551
+--- !u!114 &5660939155750549781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2989,7 +2989,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8874543976945290547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc05371b7f958242806c874593cebb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 99b255f31afe30a4bae6d99834ff7e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   benihValue: 1
@@ -2998,7 +2998,7 @@ MonoBehaviour:
   NamaObject2: Bibit Biasa
   Text: {fileID: 6823826373628643655}
   WaktuText: {fileID: 5736225114433434775}
-  waktuDurasi: 30
+  waktuDurasi: 20
   Biji: {fileID: 2614674471770573148}
   SudahSelesai: {fileID: 2970174665596976500}
   Setengah:
