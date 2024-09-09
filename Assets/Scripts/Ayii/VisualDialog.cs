@@ -226,6 +226,7 @@ public class VisualDialog : MonoBehaviour
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;
                         MouseActive = false;
+                        Selesai = true;
                     }
                     else
                     {

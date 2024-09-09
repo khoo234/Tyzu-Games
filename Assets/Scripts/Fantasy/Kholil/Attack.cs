@@ -35,7 +35,7 @@ public class Attack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetMouseButton(0))
         {
             playerMovement.enabled = false; // Nonaktifkan pergerakan pemain
             animator.SetTrigger("Attack");

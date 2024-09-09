@@ -60,7 +60,7 @@ public class Ulti : MonoBehaviour
         }
 
         // Jika pemain menekan tombol C, aktifkan Ulti
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             if (enemyTransform != null)  // Pastikan musuh sudah ada
             {

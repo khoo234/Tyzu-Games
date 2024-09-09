@@ -38,7 +38,7 @@ public class Skill2 : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             playerMovement.enabled = false;
             animator.SetTrigger("Skill2");

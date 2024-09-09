@@ -65,17 +65,37 @@ public class InformasiUpgrade : MonoBehaviour
 
     private void Update()
     {
+        // Attack
         if(AttackLvl2 && AttackLvl3)
         {
             TombolAttackUpgrade.interactable = false;
+            AttackLevel.text = "Max";
         }
-        if(SkillLvl2 && SkillLvl3)
+        else if(AttackLvl2 && !AttackLvl3)
+        {
+            AttackLevel.text = "Level 3";
+        }
+
+        // Skill
+        if (SkillLvl2 && SkillLvl3)
         {
             TombolSkillUpgrade.interactable = false;
+            SkillLevel.text = "Max";
         }
+        else if (SkillLvl2 && !SkillLvl3)
+        {
+            SkillLevel.text = "Level 3";
+        }
+
+        // Ulti
         if (UltiLvl2 && UltiLvl3)
         {
             TombolUltiUpgrade.interactable = false;
+            UltiLevel.text = "Max";
+        }
+        else if (UltiLvl2 && !UltiLvl3)
+        {
+            UltiLevel.text = "Level 3";
         }
     }
 
@@ -125,6 +145,7 @@ public class InformasiUpgrade : MonoBehaviour
         // Attack
         GambarAttack.SetActive(false);
         AttackUpgrade.SetActive(false);
+        AttackLevelText.SetActive(false);
         AttackLevel.text = "";
         // Skill
         SkillUpgrade.SetActive(true);
@@ -154,13 +175,16 @@ public class InformasiUpgrade : MonoBehaviour
         // Attack
         GambarAttack.SetActive(false);
         AttackUpgrade.SetActive(false);
+        AttackLevelText.SetActive(false);
         AttackLevel.text = "";
         // Skill
         SkillUpgrade.SetActive(false);
         GambarSkill.SetActive(false);
         SkillLevel.text = "";
+        SkillLevelText.SetActive(false);
         // Ulti
         UltiUpgrade.SetActive(true);
         GambarUlti.SetActive(true);
+        UltiLevelText.SetActive(true);
     }
 }

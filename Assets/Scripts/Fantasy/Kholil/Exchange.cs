@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class Exchange : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Exchange : MonoBehaviour
     public Notifikasi tidakbisaupgrade;
 
     private bool isInTrigger = false;
+    private bool bukatoko = false;
 
     [Header ("Script")]
     public MonoBehaviour playerMovementScript;
@@ -42,6 +44,12 @@ public class Exchange : MonoBehaviour
     public TextMeshProUGUI TextKoin;
     public TextMeshProUGUI TextHama;
 
+    [Header ("Buka")]
+    public UnityEvent bukatokoo;
+
+    [Header ("Tutup")]
+    public UnityEvent tutuptokoo;
+
 
     void Start()
     {
@@ -51,14 +59,28 @@ public class Exchange : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        BukaToko();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && isInTrigger)
+        if (!bukatoko)
         {
-            buka.ShowUI();
+            if (Input.GetKeyDown(KeyCode.E) && isInTrigger)
+            {
+                buka.ShowUI();
+                BukaToko();
+                bukatoko = true;
+                bukatokoo?.Invoke();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.E) && isInTrigger)
+            {
+                buka.HideUI();
+                bukatoko = false;
+                tutuptokoo?.Invoke();
+            }
         }
     }
 
@@ -147,7 +169,6 @@ public class Exchange : MonoBehaviour
                 playerAttack.lv2 = true;
                 AttackLevel2 = true;
                 InfoApgred.AttackLvl2 = true;
-                Debug.Log("Attack Skill Level 2 Unlocked!");
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-500);
                 berhasildiupgrade.ShowPopup();
@@ -169,7 +190,6 @@ public class Exchange : MonoBehaviour
                 playerAttack.lv3 = true;
                 AttackLevel3 = true;
                 InfoApgred.AttackLvl3 = true;
-                Debug.Log("Attack Skill Level 3 Unlocked!");
 
                 UpdateExchangeCanvas();
             }
@@ -191,7 +211,6 @@ public class Exchange : MonoBehaviour
                 berhasildiupgrade.ShowPopup();
                 playerSkill.SetSkillLevel(2);
                 InfoApgred.SkillLvl2 = true;
-                Debug.Log("Attack Skill Level 2 Unlocked!");
 
                 UpdateExchangeCanvas();
             }
@@ -209,7 +228,6 @@ public class Exchange : MonoBehaviour
                 berhasildiupgrade.ShowPopup();
                 playerSkill.SetSkillLevel(3);
                 InfoApgred.SkillLvl3 = true;
-                Debug.Log("Attack Skill Level 3 Unlocked!");
 
                 UpdateExchangeCanvas();
             }
@@ -231,7 +249,6 @@ public class Exchange : MonoBehaviour
                 berhasildiupgrade.ShowPopup();
                 playerUlti.SetSkillLevel(2);
                 InfoApgred.UltiLvl2 = true;
-                Debug.Log("Ultimate Skill Level 2 Unlocked!");
 
                 UpdateExchangeCanvas();
             }
@@ -248,7 +265,6 @@ public class Exchange : MonoBehaviour
                 inventoryManager.AddKoinFantasy(-1000);
                 berhasildiupgrade.ShowPopup(); playerUlti.SetSkillLevel(3);
                 InfoApgred.UltiLvl3 = true;
-                Debug.Log("Ultimate Skill Level 3 Unlocked!");
 
                 UpdateExchangeCanvas();
             }

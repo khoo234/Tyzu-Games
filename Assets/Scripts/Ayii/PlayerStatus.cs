@@ -27,15 +27,7 @@ public class PlayerStatus : MonoBehaviour
         {
             Mati();
         }
-        
-        if(Input.GetMouseButtonDown(0))
-        {
-            anim.SetTrigger("Ulti");
-        }
-        
     }
-
-    
 
     public void KenaDamage(int Jumlah)
     {
