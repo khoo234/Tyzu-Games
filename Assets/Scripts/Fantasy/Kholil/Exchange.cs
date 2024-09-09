@@ -10,11 +10,13 @@ public class Exchange : MonoBehaviour
 
     public TextMeshProUGUI exchangeMonsterText;
     public TextMeshProUGUI exchangeBibitText;
+    public TextMeshProUGUI exchangeBibitRareText;
     public TextMeshProUGUI exchangeKoinFantasyText; // TMP untuk Koin Fantasy
     public InventoryManager inventoryManager;
 
     public Button exchangeButton;
     public Button koinFantasyButton;
+    public Button koinFantasyRareButton;
     public Button coinButton;  // Tombol untuk menukar Koin Fantasy ke Coin
 
     public Attack playerAttack; // Reference ke skrip Attack untuk mengaktifkan skill
@@ -51,6 +53,10 @@ public class Exchange : MonoBehaviour
         if (koinFantasyButton != null)
         {
             koinFantasyButton.onClick.AddListener(OnKoinFantasyButtonClick);
+        }
+        if (koinFantasyRareButton != null)
+        {
+            koinFantasyRareButton.onClick.AddListener(OnKoinFantasyRareButtonClick);
         }
 
         if (coinButton != null)
@@ -130,11 +136,16 @@ public class Exchange : MonoBehaviour
         {
             exchangeBibitText.text = "Bibit: " + inventoryManager.GetBibitCount();
         }
+        if (exchangeBibitRareText != null && inventoryManager != null)
+        {
+            exchangeBibitRareText.text = "BibitRare: " + inventoryManager.GetBibitRareCount();
+        }
 
         if (exchangeKoinFantasyText != null && inventoryManager != null)
         {
             exchangeKoinFantasyText.text = "Koin Fantasy: " + inventoryManager.GetKoinFantasy();
         }
+
     }
 
     private void OnExchangeButtonClick()
@@ -153,6 +164,16 @@ public class Exchange : MonoBehaviour
         {
             inventoryManager.UseBibit();
             inventoryManager.AddKoinFantasy(500);
+            UpdateExchangeCanvas();
+        }
+    }
+
+    private void OnKoinFantasyRareButtonClick()  // Fungsi untuk menukar BibitRare menjadi Koin Fantasy
+    {
+        if (inventoryManager.GetBibitRareCount() >= 1)
+        {
+            inventoryManager.UseBibitRare();  // Kurangi jumlah BibitRare
+            inventoryManager.AddKoinFantasy(1500);  // Tambahkan 1500 Koin Fantasy
             UpdateExchangeCanvas();
         }
     }
@@ -257,7 +278,7 @@ public class Exchange : MonoBehaviour
             if (playerAttack3 != null)
             {
                 playerAttack3.SetSkillLevel(2);
-                Debug.Log("Attack3 Skill Level 2 Unlocked!");
+                Debug.Log("Ultimate Skill Level 2 Unlocked!");
             }
 
             UpdateExchangeCanvas();
@@ -275,7 +296,7 @@ public class Exchange : MonoBehaviour
             if (playerAttack3 != null)
             {
                 playerAttack3.SetSkillLevel(3);
-                Debug.Log("Attack3 Skill Level 3 Unlocked!");
+                Debug.Log("Ultimate Skill Level 3 Unlocked!");
             }
 
             UpdateExchangeCanvas();
@@ -295,6 +316,14 @@ public class Exchange : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isInTrigger = false;
+            if (exchangeCanvas != null)
+            {
+                exchangeCanvas.gameObject.SetActive(false);
+                playerMovementScript.enabled = true;
+
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 }

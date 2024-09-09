@@ -6,28 +6,34 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryCanvas;
     public MonoBehaviour playerMovementScript;
     public TextMeshProUGUI seedCountText;
+    public TextMeshProUGUI seedRareCountText;  // UI untuk benih rare
     public TextMeshProUGUI monsterCountText;
-    public TextMeshProUGUI bibitCountText;  // Reference for bibit count
-    public TextMeshProUGUI pupukCountText;  // Reference for pupuk count
-    public TextMeshProUGUI koinFantasyText;  // Reference for Koin Fantasy
-    public TextMeshProUGUI coinText;  // Reference for Coin count
-    public Exchange exchangeScript;  // Reference to Exchange script
+    public TextMeshProUGUI bibitCountText;
+    public TextMeshProUGUI bibitRareCountText;  // UI untuk bibit rare
+    public TextMeshProUGUI pupukCountText;
+    public TextMeshProUGUI koinFantasyText;
+    public TextMeshProUGUI coinText;
+    public Exchange exchangeScript;
 
     private bool isInventoryOpen = false;
     private int seedCount = 0;
+    private int seedrare = 0; // Jumlah benih rare
     private int monsterCount = 0;
     private int bibitCount = 0;
-    private int pupukCount = 0;  // Separate count for pupuk
-    private int KoinFantasy = 0;  // Koin Fantasy count
-    private int Coin = 0;  // Coin count
-    private int AttackSkill2 = 0;
-    private int AttackSkill3 = 0;
+    private int bibitrare = 0; // Jumlah bibit rare
+    private int pupukCount = 0;
+    private int KoinFantasy = 0;
+    private int Coin = 0;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab) && !isInventoryOpen && (exchangeScript == null || !exchangeScript.exchangeCanvas.gameObject.activeSelf))
         {
             OpenInventory();
+        }
+        else if (Input.GetKeyDown(KeyCode.Tab) && isInventoryOpen)
+        {
+            CloseInventory();
         }
     }
 
@@ -39,12 +45,7 @@ public class InventoryManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
         playerMovementScript.enabled = false;
-        UpdateSeedCountUI();
-        UpdateMonsterCountUI();
-        UpdateBibitCountUI();  // Update bibit UI
-        UpdatePupukCountUI();  // Update pupuk UI
-        UpdateKoinFantasyUI();  // Update Koin Fantasy UI
-        UpdateCoinUI();  // Update Coin UI
+        UpdateAllUI();
     }
 
     public void CloseInventory()
@@ -56,6 +57,21 @@ public class InventoryManager : MonoBehaviour
         playerMovementScript.enabled = true;
     }
 
+    // Update semua elemen UI
+    private void UpdateAllUI()
+    {
+        UpdateSeedCountUI();
+        UpdateSeedRareCountUI();
+        UpdateMonsterCountUI();
+        UpdateBibitCountUI();
+        UpdateBibitRareCountUI();
+        UpdatePupukCountUI();
+        UpdateKoinFantasyUI();
+        UpdateCoinUI();
+    }
+
+
+    // Benih biasa
     public void AddSeed(int amount)
     {
         seedCount += amount;
@@ -81,21 +97,54 @@ public class InventoryManager : MonoBehaviour
         return seedCount;
     }
 
-    public void AddMonster(int amount)
+    private void UpdateSeedCountUI()
     {
-        monsterCount += amount;
-        UpdateMonsterCountUI();
+        if (seedCountText != null)
+        {
+            seedCountText.text = "Benih: " + seedCount;
+        }
     }
 
-    public int GetMonsterCount()
+    // Benih rare
+    public void AddSeedRare(int amount)
     {
-        return monsterCount;
+        seedrare += amount;
+        UpdateSeedRareCountUI();
     }
 
+    public bool HasSeedRare()
+    {
+        return seedrare > 0;
+    }
+
+    public void UseSeedRare()
+    {
+        if (seedrare > 0)
+        {
+            seedrare--;
+            UpdateSeedRareCountUI();
+        }
+    }
+
+
+    public int GetSeedRareCount()
+    {
+        return seedrare;
+    }
+
+    private void UpdateSeedRareCountUI()
+    {
+        if (seedRareCountText != null)
+        {
+            seedRareCountText.text = "Benih Rare: " + seedrare;
+        }
+    }
+
+    // Bibit biasa
     public void AddBibit(int amount)
     {
         bibitCount += amount;
-        UpdateBibitCountUI();  // Update UI when bibit count changes
+        UpdateBibitCountUI();
     }
 
     public void UseBibit()
@@ -112,51 +161,67 @@ public class InventoryManager : MonoBehaviour
         return bibitCount;
     }
 
-    public void AddPupuk(int amount)
+    private void UpdateBibitCountUI()
     {
-        pupukCount += amount;
-        UpdatePupukCountUI();  // Update UI when pupuk count changes
-    }
-
-    public int GetPupukCount()
-    {
-        return pupukCount;
-    }
-
-    public void AddKoinFantasy(int amount)
-    {
-        KoinFantasy += amount;
-        UpdateKoinFantasyUI();
-    }
-
-    public int GetKoinFantasy()
-    {
-        return KoinFantasy;
-    }
-
-    public void AddCoin(int amount)
-    {
-        Coin += amount;
-        UpdateCoinUI();
-
-        // Laporkan jumlah koin ke GameManager
-        if (GameManager.Instance != null)
+        if (bibitCountText != null)
         {
-            GameManager.Instance.AddCoins(amount);
+            bibitCountText.text = "Bibit: " + bibitCount;
         }
     }
 
-    public int GetCoin()
+    // Bibit rare
+    public void AddBibitRare(int amount)
     {
-        return Coin;
+        bibitrare += amount;
+        UpdateBibitRareCountUI();
     }
 
-    private void UpdateSeedCountUI()
+    public void UseBibitRare()
     {
-        if (seedCountText != null)
+        if (bibitrare > 0)
         {
-            seedCountText.text = "Benih: " + seedCount;
+            bibitrare--;
+            UpdateBibitRareCountUI();
         }
+    }
+
+    public int GetBibitRareCount()
+    {
+        return bibitrare;
+    }
+
+    private void UpdateBibitRareCountUI()
+    {
+        if (bibitRareCountText != null)
+        {
+            bibitRareCountText.text = "Bibit Rare: " + bibitrare;
+        }
+    }
+
+    // Monster
+    public void AddMonster(int amount)
+    {
+        monsterCount += amount;
+        UpdateMonsterCountUI();
+    }
+
+    public bool HasMonsters()
+    {
+        return monsterCount > 0;
+    }
+
+    public void UseMonster()
+    {
+        if (monsterCount > 0)
+        {
+            monsterCount--;
+            UpdateMonsterCountUI();
+        }
+    }
+
+    public int GetMonsterCount()
+    {
+        return monsterCount;
     }
 
     private void UpdateMonsterCountUI()
@@ -167,12 +232,30 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void UpdateBibitCountUI()
+   // Pupuk
+    public void AddPupuk(int amount)
     {
-        if (bibitCountText != null)
+        pupukCount += amount;
+        UpdatePupukCountUI();
+    }
+
+    public bool HasPupuk()
+    {
+        return pupukCount > 0;
+    }
+
+    public void UsePupuk()
+    {
+        if (pupukCount > 0)
         {
-            bibitCountText.text = "Bibit: " + bibitCount;
+            pupukCount--;
+            UpdatePupukCountUI();
         }
+    }
+
+    public int GetPupukCount()
+    {
+        return pupukCount;
     }
 
     private void UpdatePupukCountUI()
@@ -183,6 +266,28 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+
+    // Koin Fantasy
+    public void AddKoinFantasy(int amount)
+    {
+        KoinFantasy += amount;
+        UpdateKoinFantasyUI();
+    }
+
+    public void UseKoinFantasy(int amount)
+    {
+        if (KoinFantasy >= amount)
+        {
+            KoinFantasy -= amount;
+            UpdateKoinFantasyUI();
+        }
+    }
+
+    public int GetKoinFantasy()
+    {
+        return KoinFantasy;
+    }
+
     private void UpdateKoinFantasyUI()
     {
         if (koinFantasyText != null)
@@ -191,11 +296,32 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Coin
+    public void AddCoin(int amount)
+    {
+        Coin += amount;
+        UpdateCoinUI();
+    }
+
+    public void UseCoin(int amount)
+    {
+        if (Coin >= amount)
+        {
+            Coin -= amount;
+            UpdateCoinUI();
+        }
+    }
+
+    public int GetCoin()
+    {
+        return Coin;
+    }
+
     private void UpdateCoinUI()
     {
         if (coinText != null)
         {
-            coinText.text = "Rupiah: " + Coin;
+            coinText.text = "Coin: " + Coin;
         }
     }
 }
