@@ -3118,7 +3118,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1973573731}
+      - m_Target: {fileID: 737042588}
         m_TargetAssemblyTypeName: Investasi, Assembly-CSharp
         m_MethodName: ClaimJPK
         m_Mode: 1
@@ -6685,7 +6685,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1973573731}
+      - m_Target: {fileID: 737042588}
         m_TargetAssemblyTypeName: Investasi, Assembly-CSharp
         m_MethodName: InvestasiJPK
         m_Mode: 1
@@ -6735,6 +6735,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720937742}
   m_CullTransparentMesh: 1
+--- !u!1 &737042586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 737042587}
+  - component: {fileID: 737042588}
+  m_Layer: 0
+  m_Name: Inves
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &737042587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737042586}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 24.44454, y: 2.795247, z: 0.082476616}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &737042588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737042586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5305a8305ad56459cd157440bfa06d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NotifTdkCukup: {fileID: 468774248}
+  NotifKeuntungan: {fileID: 1158357034}
+  NotifMasukkanUpiah: {fileID: 1297442128}
+  BerhasilDibeli: {fileID: 1423622310}
+  AngkaKeuntungan: {fileID: 1066067241}
+  Rupiah: {fileID: 2733942135830926792}
+  JumlahJangkaPendek: {fileID: 1541549559}
+  InvestJangkaPendek: 0
+  totalPendapatanJangkaPendek: 0
+  JumlahJangkaPanjang: {fileID: 1068773096}
+  InvestJangkaPanjang: 0
+  totalPendapatanJangkaPanjang: 0
+  PersenKeuntunganJPK: 1.05
+  PersenKeuntunganJPG: 2
+  WaktuTextJangkaPendek: {fileID: 1091742139}
+  WaktuTextJangkaPanjang: {fileID: 258062305}
+  WaktuJangkaPendek: 60
+  WaktuJangkaPanjang: 120
+  Button1: {fileID: 1141642280}
+  Button2: {fileID: 464639613}
+  ClaimJPKnya: {fileID: 374355584}
+  ClaimJPGnya: {fileID: 1057181928}
 --- !u!1001 &746329221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9877,7 +9943,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1973573731}
+      - m_Target: {fileID: 737042588}
         m_TargetAssemblyTypeName: Investasi, Assembly-CSharp
         m_MethodName: ClaimJPG
         m_Mode: 1
@@ -14440,7 +14506,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Investasi Jangka Panjang
+  m_text: Investasi Jangka Pendek
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15041,7 +15107,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1973573731}
+      - m_Target: {fileID: 737042588}
         m_TargetAssemblyTypeName: Investasi, Assembly-CSharp
         m_MethodName: InvestasiJPG
         m_Mode: 1
@@ -20371,7 +20437,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1973573730}
   - component: {fileID: 1973573732}
-  - component: {fileID: 1973573731}
   m_Layer: 0
   m_Name: UpiahManager
   m_TagString: Untagged
@@ -20394,39 +20459,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1973573731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973573729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5305a8305ad56459cd157440bfa06d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NotifTdkCukup: {fileID: 468774248}
-  NotifKeuntungan: {fileID: 1158357034}
-  NotifMasukkanUpiah: {fileID: 1297442128}
-  BerhasilDibeli: {fileID: 1423622310}
-  AngkaKeuntungan: {fileID: 1066067241}
-  JumlahJangkaPendek: {fileID: 1541549559}
-  InvestJangkaPendek: 0
-  totalPendapatanJangkaPendek: 0
-  JumlahJangkaPanjang: {fileID: 1068773096}
-  InvestJangkaPanjang: 0
-  totalPendapatanJangkaPanjang: 0
-  PersenKeuntunganJPK: 1.05
-  PersenKeuntunganJPG: 2
-  WaktuTextJangkaPendek: {fileID: 1091742139}
-  WaktuTextJangkaPanjang: {fileID: 258062305}
-  WaktuJangkaPendek: 60
-  WaktuJangkaPanjang: 120
-  Button1: {fileID: 1141642280}
-  Button2: {fileID: 464639613}
-  ClaimJPKnya: {fileID: 374355584}
-  ClaimJPGnya: {fileID: 1057181928}
 --- !u!114 &1973573732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20439,9 +20471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1a14e43de4d5940a5226ee303b67e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpiahText: {fileID: 7458275569838144098, guid: b48ab6f5fb1c66147a407bcbcf68d610,
+  SimpanRupiahText: {fileID: 7458275569838144098, guid: b48ab6f5fb1c66147a407bcbcf68d610,
     type: 3}
-  UpiahTampilkan: {fileID: 2733942135830926792}
   totalUpiah: 10
 --- !u!1001 &1979352518
 PrefabInstance:

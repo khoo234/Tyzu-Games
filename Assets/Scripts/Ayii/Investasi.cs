@@ -13,6 +13,7 @@ public class Investasi : MonoBehaviour
 
     [Header("Info Keuntungan")]
     public TMP_Text AngkaKeuntungan;
+    public TMP_Text Rupiah;
 
     [Header("Invest Jangka Pendek")]
     public TMP_InputField JumlahJangkaPendek;
@@ -25,7 +26,7 @@ public class Investasi : MonoBehaviour
     public int InvestJangkaPanjang;
     public float totalPendapatanJangkaPanjang;
 
-    [Header ("Persen Keuntungan (Gunakan 1.1 = 1%)")]
+    [Header ("Persen Keuntungan (Gunakan 0.1 = 1%)")]
     public float PersenKeuntunganJPK;
     public float PersenKeuntunganJPG;
     private bool isInvestingJPG;
@@ -48,7 +49,6 @@ public class Investasi : MonoBehaviour
 
     private void Start()
     {
-        Script = FindAnyObjectByType<UpiahManager>();
         WaktuTextJangkaPendek.text = WaktuJangkaPendek.ToString();
         WaktuTextJangkaPanjang.text = WaktuJangkaPanjang.ToString();
         ClaimJPKnya.interactable = false;
@@ -59,6 +59,8 @@ public class Investasi : MonoBehaviour
     {
         int.TryParse(JumlahJangkaPendek.text, out InvestJangkaPendek);
         int.TryParse(JumlahJangkaPanjang.text, out InvestJangkaPanjang);
+        Script = FindAnyObjectByType<UpiahManager>();
+        Rupiah.text = Script.totalUpiah.ToString();
     }
 
     public void InvestasiJPK()

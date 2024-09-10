@@ -25,6 +25,7 @@ public class Exchange : MonoBehaviour
     public Ulti playerUlti;
     public InventoryManager inventoryManager;
     public InformasiUpgrade InfoApgred;
+    public UpiahManager Rupiah;
 
     [Header("Attack Level")]
     public bool AttackLevel2;
@@ -67,21 +68,19 @@ public class Exchange : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && isInTrigger)
             {
-                buka.ShowUI();
                 BukaToko();
                 bukatoko = true;
-                bukatokoo?.Invoke();
             }
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.E) && isInTrigger)
             {
-                buka.HideUI();
+                TutupToko();
                 bukatoko = false;
-                tutuptokoo?.Invoke();
             }
         }
+        Rupiah = FindAnyObjectByType<UpiahManager>();
     }
 
     public void BukaToko()
@@ -89,6 +88,19 @@ public class Exchange : MonoBehaviour
         playerMovementScript.enabled = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        buka.ShowUI();
+        bukatokoo?.Invoke();
+
+        UpdateExchangeCanvas();
+    }
+
+    public void TutupToko()
+    {
+        playerMovementScript.enabled = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        buka.HideUI();
+        tutuptokoo?.Invoke();
 
         UpdateExchangeCanvas();
     }
@@ -108,6 +120,7 @@ public class Exchange : MonoBehaviour
             inventoryManager.AddMonster(-2);
             inventoryManager.AddPupuk(1);
             UpdateExchangeCanvas();
+            berhasiltukar.ShowPopup();
         }
         else
         {
@@ -122,6 +135,7 @@ public class Exchange : MonoBehaviour
             inventoryManager.UseBibit();
             inventoryManager.AddKoinFantasy(500);
             UpdateExchangeCanvas();
+            berhasilbeli.ShowPopup();
         }
         else
         {
@@ -136,6 +150,7 @@ public class Exchange : MonoBehaviour
             inventoryManager.UseBibitRare();  // Kurangi jumlah BibitRare
             inventoryManager.AddKoinFantasy(1500);  // Tambahkan 1500 Koin Fantasy
             UpdateExchangeCanvas();
+            berhasilbeli.ShowPopup();
         }
         else
         {
@@ -148,10 +163,8 @@ public class Exchange : MonoBehaviour
         if (inventoryManager.GetKoinFantasy() >= 1000)
         {
             inventoryManager.AddKoinFantasy(-1000);
-            inventoryManager.AddCoin(1000000);  // Tambahkan Coin ke inventory
-
-            UpiahManager.Instance.AddUpiah(1000000); // Tambahkan ke total koin di GameManager
-
+            Rupiah.AddUpiah(1000000);
+            berhasiltukar.ShowPopup();
             UpdateExchangeCanvas();
         }
         else

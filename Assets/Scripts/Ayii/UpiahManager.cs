@@ -5,8 +5,7 @@ using UnityEngine;
 public class UpiahManager : MonoBehaviour
 {
     public static UpiahManager Instance;
-    public TMP_Text UpiahText;
-    public TMP_Text UpiahTampilkan;
+    public TMP_Text SimpanRupiahText;
 
     public int totalUpiah = 0;
     private const string upiahKey = "TotalUpiah";
@@ -56,8 +55,7 @@ public class UpiahManager : MonoBehaviour
 
     private void UpdateUpiahText()
     {
-        UpiahText.text = "Upiah: " + totalUpiah;
-        UpiahTampilkan.text = totalUpiah.ToString();
+        SimpanRupiahText.text = "Rupiah : " + totalUpiah;
     }
 
     private void OnApplicationQuit()
