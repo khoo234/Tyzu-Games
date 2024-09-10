@@ -19051,7 +19051,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1410646877687042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3968fd7c70668984c96c178e3d5bc962, type: 3}
+  m_Script: {fileID: 11500000, guid: e62172608f6b5e7468d12513c011a9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Distance: 30
@@ -19062,7 +19062,7 @@ MonoBehaviour:
   Target: {fileID: 0}
   CollidesWith:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 72
   EffectsOnCollision:
   - {fileID: 1018893526164950, guid: b93731551ea0e0d44abc5be7573f005c, type: 3}
   CollisionOffset: 0
@@ -19073,8 +19073,8 @@ MonoBehaviour:
   - {fileID: 1587812329679436}
   HUE: -1
   CollidedInstances: []
-  DamageLevel1: 0
-  DamageLevel2: 0
+  DamageLevel1: 10
+  DamageLevel2: 20
   damagee: 0
 --- !u!1 &1533523717697602
 GameObject:

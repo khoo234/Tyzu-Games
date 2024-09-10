@@ -5,14 +5,21 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - PlayerAttack
+  - Seed
+  - Ladang
+  - SeedRare
+  - Obstacle
+  - CinemachineTarget
+  - SpawnEnemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacle
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -11,6 +12,11 @@ public class PlayerStatus : MonoBehaviour
     [Header("Animator")]
     public Animator anim;
 
+    [Header("Info")]
+    public TMP_Text Min;
+    public TMP_Text Max;
+
+    [Header("Script")]
     public HealthBar Script;
     private void Awake()
     {
@@ -19,10 +25,12 @@ public class PlayerStatus : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
+        if(Input.GetKeyDown(KeyCode.Y))
         {
-            KenaDamage(10);
+            KenaDamage(5);
         }
+        Min.text = DarahSekarang.ToString();
+        Max.text = MaxDarah.ToString();
         if (DarahSekarang <= 0)
         {
             Mati();

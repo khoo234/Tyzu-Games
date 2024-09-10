@@ -28,6 +28,7 @@ public class Skill2 : MonoBehaviour
     public int armorValueLevel3 = 30; // Armor value for level 3
 
     private bool isArmorActive = false;
+    private bool isSkillActive = false;
     public int skillLevel = 1; // Skill level (1 for initial, 2 for level 2, 3 for level 3)
 
     void Start()
@@ -38,11 +39,14 @@ public class Skill2 : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        // Check if the skill is not already active before activating
+        if (Input.GetKeyDown(KeyCode.C) && !isSkillActive)
         {
+            isSkillActive = true; // Set the skill as active
             playerMovement.enabled = false;
             animator.SetTrigger("Skill2");
             StartCoroutine(ResetMovementAfterAttack(attackDelay));
+            ActivateArmor();
         }
     }
 
@@ -52,18 +56,7 @@ public class Skill2 : MonoBehaviour
         {
             GameObject vfxInstance1 = Instantiate(vfxPrefab1, vfxSpawnPoint1.position, vfxSpawnPoint1.rotation);
             vfxInstance1.transform.parent = transform;
-            Destroy(vfxInstance1, GetVFXLifetime()); // Use armor duration for VFX lifetime
-
-            // Display information or additional effects if armor is active
-            if (isArmorActive)
-            {
-                Debug.Log("Armor aktif - VFX Spawned!");
-                // Add visual effects or other logic when armor is active
-            }
-        }
-        else
-        {
-            Debug.LogWarning("VFX Prefab 1 atau VFX Spawn Point 1 belum diatur!");
+            Destroy(vfxInstance1, GetVFXLifetime());
         }
     }
 
@@ -77,6 +70,7 @@ public class Skill2 : MonoBehaviour
     {
         yield return new WaitForSeconds(GetArmorDuration());
         isArmorActive = false;
+        isSkillActive = false;
     }
 
     IEnumerator ResetMovementAfterAttack(float delay)
@@ -131,13 +125,6 @@ public class Skill2 : MonoBehaviour
         if (level >= 1 && level <= 3)
         {
             skillLevel = level;
-            Debug.Log($"Skill level set to {skillLevel}.");
-            Debug.Log($"New Armor Duration: {GetArmorDuration()} seconds.");
-            Debug.Log($"New Armor Value: {GetArmorValue()}.");
-        }
-        else
-        {
-            Debug.LogError("Invalid skill level.");
         }
     }
 }

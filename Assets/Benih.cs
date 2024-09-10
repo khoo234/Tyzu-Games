@@ -42,6 +42,14 @@ public class Benih : MonoBehaviour
     {
         Text.text = NamaObject;
         WaktuText.gameObject.SetActive(false);
+
+        GameObject[] spawnEnemyObjects = GameObject.FindGameObjectsWithTag("SpawnEnemy");
+        spawnPoints = new Transform[spawnEnemyObjects.Length];
+
+        for (int i = 0; i < spawnEnemyObjects.Length; i++)
+        {
+            spawnPoints[i] = spawnEnemyObjects[i].transform;
+        }
     }
 
     private void Update()

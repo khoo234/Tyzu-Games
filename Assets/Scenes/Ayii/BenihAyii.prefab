@@ -3008,8 +3008,8 @@ MonoBehaviour:
   - {fileID: 6599894042047855464, guid: 90210fb8a3a628d4abcfad2fcc5473ad, type: 3}
   - {fileID: 6131947235122459159, guid: bd7d0cfc9b5b3724686b44b494b2bdd7, type: 3}
   spawnPoints:
-  - {fileID: 8088913888748473466, guid: 939b1fde806c17e4398f5a13de7244b3, type: 3}
-  - {fileID: 5763161766415427042, guid: 9fb0b90132ee20b44b1618b38df64854, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   Ditanam: 0
 --- !u!1 &8874543976982173677
 GameObject:

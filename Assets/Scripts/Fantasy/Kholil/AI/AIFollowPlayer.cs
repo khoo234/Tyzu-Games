@@ -95,10 +95,6 @@ public class AIFollowPlayer : MonoBehaviour
         {
             player = playerObject.transform;
         }
-        else
-        {
-            Debug.LogWarning("Player with tag " + playerTag + " not found!");
-        }
     }
 
     private void MoveTowardsPlayer(Vector3 direction)

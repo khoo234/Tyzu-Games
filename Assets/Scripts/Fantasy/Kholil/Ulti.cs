@@ -72,10 +72,6 @@ public class Ulti : MonoBehaviour
                 // Aplikasikan stun dan damage ke musuh berdasarkan level
                 ApplyStun();
             }
-            else
-            {
-                Debug.LogWarning("Enemy belum ditemukan!");
-            }
         }
 
         // Menambahkan logika untuk level 2 dan level 3
@@ -83,13 +79,11 @@ public class Ulti : MonoBehaviour
         {
             lv2 = true;  // Tandai bahwa level 2 telah dicapai
             Damage = Damage2;
-            Debug.Log("Skill Ulti LV2");
         }
         else if (currentLevel == 3 && lv2 && !lv3)
         {
             lv3 = true;  // Tandai bahwa level 3 telah dicapai
             Damage = Damage3;
-            Debug.Log("Skill Ulti LV3");
         }
     }
 
@@ -100,25 +94,18 @@ public class Ulti : MonoBehaviour
         if (level >= 1 && level <= 3)
         {
             currentLevel = level;
-            Debug.Log("Skill level set to: " + currentLevel);
 
             // Update the damage and other properties based on the level
             if (currentLevel == 2 && !lv2)
             {
                 lv2 = true;  // Tandai bahwa level 2 telah dicapai
                 Damage = Damage2;
-                Debug.Log("Skill Ulti LV2");
             }
             else if (currentLevel == 3 && lv2 && !lv3)
             {
                 lv3 = true;  // Tandai bahwa level 3 telah dicapai
                 Damage = Damage3;
-                Debug.Log("Skill Ulti LV3");
             }
-        }
-        else
-        {
-            Debug.LogWarning("Invalid skill level: " + level);
         }
     }
 
@@ -147,10 +134,6 @@ public class Ulti : MonoBehaviour
 
             Destroy(vfxInstance1);  // Hancurkan VFX setelah waktu selesai
         }
-        else
-        {
-            Debug.LogWarning("VFX Prefab 1 atau enemyTransform belum diatur!");
-        }
     }
 
     // Mencari musuh secara dinamis berdasarkan tag
@@ -160,11 +143,6 @@ public class Ulti : MonoBehaviour
         if (enemyObject != null)
         {
             enemyTransform = enemyObject.transform;
-            Debug.Log("Enemy ditemukan dan enemyTransform di-set.");
-        }
-        else
-        {
-            Debug.LogWarning("Enemy belum ditemukan!");
         }
     }
 
@@ -181,10 +159,6 @@ public class Ulti : MonoBehaviour
         {
             GameObject vfxInstance2 = Instantiate(vfxPrefab2, vfxSpawnPoint2.position, vfxSpawnPoint2.rotation);
             Destroy(vfxInstance2, vfxLifetime2);
-        }
-        else
-        {
-            Debug.LogWarning("VFX Prefab 2 atau VFX Spawn Point 2 belum diatur!");
         }
     }
 
@@ -215,10 +189,6 @@ public class Ulti : MonoBehaviour
             {
                 enemyAI.Stun(stunDuration);  // Stun musuh dengan durasi yang telah diatur
             }
-        }
-        else
-        {
-            Debug.LogWarning("Enemy belum ditemukan untuk diterapkan stun!");
         }
     }
 }

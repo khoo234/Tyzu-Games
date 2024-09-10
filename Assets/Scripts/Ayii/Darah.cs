@@ -6,6 +6,7 @@ public class Darah : MonoBehaviour
     [SerializeField] private int DarahSekarang;
     [SerializeField] private int MaxDarah;
     public Animator anim;
+    public AIMeleeAttack Attack;
 
     public HealthBar Script;
     private InventoryManager inventoryManager;

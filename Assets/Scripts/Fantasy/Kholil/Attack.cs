@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    [Header ("Damage Serangan")]
+    [Header("Damage Serangan")]
     public int Damage;
     public int Damage2;
     public int Damage3;
@@ -16,7 +16,8 @@ public class Attack : MonoBehaviour
 
     [Header("Animator Serangan")]
     public Animator animator;
-    private ThirdPersonController playerMovement;  // Referensi ke skrip pergerakan pemain
+    private ThirdPersonController Gerak;  // Referensi ke skrip pergerakan pemain
+    public bool sedangMenyerang;
 
     [Header("VFX")]
     public GameObject vfxPrefab1;  // Prefab VFX 1
@@ -24,35 +25,44 @@ public class Attack : MonoBehaviour
     public float vfxLifetime1 = 2f;  // Waktu sebelum VFX 1 dihancurkan
 
     [Header("Delay Serangan")]
-    public float attackDelay = 0.5f;
+    public float attackDelay = 0.5f; // Durasi sebelum gerakan kembali diaktifkan
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        // Dapatkan referensi ke skrip ThirdPersonController
-        playerMovement = GetComponent<ThirdPersonController>();
+        Gerak = GetComponent<ThirdPersonController>();
+        sedangMenyerang = false; // Set awal bahwa karakter tidak sedang menyerang
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0) && !sedangMenyerang)
         {
-            playerMovement.enabled = false; // Nonaktifkan pergerakan pemain
-            animator.SetTrigger("Attack");
-            StartCoroutine(ResetMovementAfterAttack(attackDelay));  // Gunakan delay yang dapat diatur
+            StartCoroutine(Serang());
         }
+
         if (lv2 && !lv3)
         {
-            Damage = Damage2;  // Level 2 aktif, ganti damage
+            Damage = Damage2;
         }
         else if (lv3)
         {
-            Damage = Damage3;  // Level 3 aktif, ganti damage
+            Damage = Damage3;
         }
-
     }
 
-    // Dipanggil oleh Animation Event
+    IEnumerator Serang()
+    {
+        sedangMenyerang = true;
+        Gerak.enabled = false;
+        animator.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(attackDelay);
+
+        Gerak.enabled = true;
+        sedangMenyerang = false;
+    }
+
     public void SpawnattackVFX1()
     {
         if (vfxPrefab1 != null && vfxSpawnPoint1 != null)
@@ -66,11 +76,5 @@ public class Attack : MonoBehaviour
         {
             Debug.LogWarning("VFX Prefab 1 atau VFX Spawn Point 1 belum diatur!");
         }
-    }
-
-    IEnumerator ResetMovementAfterAttack(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        playerMovement.enabled = true; // Aktifkan kembali pergerakan pemain
     }
 }
