@@ -6,7 +6,15 @@ using Unity.VisualScripting;
 
 public class Exchange : MonoBehaviour
 {
-    [Header ("Animasi")]
+    [Header("Interact")]
+    public GameObject TekanE;
+    public AudioSource UpgradeAttacks;
+    public AudioSource UpgradeSkill;
+    public AudioSource UpgradeUlti;
+    public AudioSource Sell;
+    public AudioSource UangFantasy;
+
+    [Header("Animasi")]
     public Animasi buka;
     public Notifikasi berhasilbeli;
     public Notifikasi berhasildiupgrade;
@@ -18,7 +26,7 @@ public class Exchange : MonoBehaviour
     private bool isInTrigger = false;
     private bool bukatoko = false;
 
-    [Header ("Script")]
+    [Header("Script")]
     public MonoBehaviour playerMovementScript;
     public Attack playerAttack;
     public Skill2 playerSkill;
@@ -45,12 +53,11 @@ public class Exchange : MonoBehaviour
     public TextMeshProUGUI TextKoin;
     public TextMeshProUGUI TextHama;
 
-    [Header ("Buka")]
+    [Header("Buka")]
     public UnityEvent bukatokoo;
 
-    [Header ("Tutup")]
+    [Header("Tutup")]
     public UnityEvent tutuptokoo;
-
 
     void Start()
     {
@@ -60,6 +67,7 @@ public class Exchange : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        LoadStatus();
     }
 
     void Update()
@@ -81,6 +89,51 @@ public class Exchange : MonoBehaviour
             }
         }
         Rupiah = FindAnyObjectByType<UpiahManager>();
+
+        UpdateUpgradeStatus();
+    }
+
+    private void UpdateUpgradeStatus()
+    {
+        // Attack
+        if (AttackLevel2 && AttackLevel3)
+        {
+            playerAttack.lv3 = true;
+            InfoApgred.AttackLvl2 = true;
+            InfoApgred.AttackLvl3 = true;
+        }
+        else if (AttackLevel2)
+        {
+            playerAttack.lv2 = true;
+            InfoApgred.AttackLvl2 = true;
+        }
+
+        // Skill
+        if (SkillLevel2 && SkillLevel3)
+        {
+            playerSkill.SetSkillLevel(3);
+            InfoApgred.SkillLvl2 = true;
+            InfoApgred.SkillLvl3 = true;
+        }
+        else if (SkillLevel2)
+        {
+            playerSkill.SetSkillLevel(2);
+            InfoApgred.SkillLvl2 = true;
+        }
+
+        // Ulti
+        if (UltiLevel2 && UltiLevel3)
+        {
+            playerUlti.SetSkillLevel(3);
+            InfoApgred.UltiLvl2 = true;
+            InfoApgred.UltiLvl3 = true;
+        }
+        else if (UltiLevel2)
+        {
+            playerUlti.SetSkillLevel(2);
+            InfoApgred.UltiLvl2 = true;
+        }
+        UpdateExchangeCanvas(); 
     }
 
     public void BukaToko()
@@ -118,9 +171,10 @@ public class Exchange : MonoBehaviour
         if (inventoryManager.GetMonsterCount() >= 2)
         {
             inventoryManager.AddMonster(-2);
-            inventoryManager.AddPupuk(1);
+            inventoryManager.AddKoinFantasy(-500);
             UpdateExchangeCanvas();
             berhasiltukar.ShowPopup();
+            Sell.Play();
         }
         else
         {
@@ -136,6 +190,7 @@ public class Exchange : MonoBehaviour
             inventoryManager.AddKoinFantasy(500);
             UpdateExchangeCanvas();
             berhasilbeli.ShowPopup();
+            Sell.Play();
         }
         else
         {
@@ -143,14 +198,15 @@ public class Exchange : MonoBehaviour
         }
     }
 
-    public void TukarBibitRare()  // Fungsi untuk menukar BibitRare menjadi Koin Fantasy
+    public void TukarBibitRare()
     {
         if (inventoryManager.GetBibitRareCount() >= 1)
         {
-            inventoryManager.UseBibitRare();  // Kurangi jumlah BibitRare
-            inventoryManager.AddKoinFantasy(1500);  // Tambahkan 1500 Koin Fantasy
+            inventoryManager.UseBibitRare();
+            inventoryManager.AddKoinFantasy(1500);
             UpdateExchangeCanvas();
             berhasilbeli.ShowPopup();
+            Sell.Play();
         }
         else
         {
@@ -158,7 +214,7 @@ public class Exchange : MonoBehaviour
         }
     }
 
-    public void TukarKoinkeRupiah()  // Fungsi untuk menukar Koin Fantasy menjadi Coin
+    public void TukarKoinkeRupiah()
     {
         if (inventoryManager.GetKoinFantasy() >= 1000)
         {
@@ -166,6 +222,7 @@ public class Exchange : MonoBehaviour
             Rupiah.AddUpiah(1000000);
             berhasiltukar.ShowPopup();
             UpdateExchangeCanvas();
+            UangFantasy.Play();
         }
         else
         {
@@ -179,13 +236,11 @@ public class Exchange : MonoBehaviour
         {
             if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 500)
             {
-                playerAttack.lv2 = true;
                 AttackLevel2 = true;
-                InfoApgred.AttackLvl2 = true;
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-500);
                 berhasildiupgrade.ShowPopup();
-
+                UpgradeAttacks.Play();
                 UpdateExchangeCanvas();
             }
             else
@@ -193,17 +248,15 @@ public class Exchange : MonoBehaviour
                 tidakbisaupgrade.ShowPopup();
             }
         }
-        else if(AttackLevel2 && !AttackLevel3)
+        else if (AttackLevel2 && !AttackLevel3)
         {
             if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1000)
             {
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-1000);
                 berhasildiupgrade.ShowPopup();
-                playerAttack.lv3 = true;
                 AttackLevel3 = true;
-                InfoApgred.AttackLvl3 = true;
-
+                UpgradeAttacks.Play();
                 UpdateExchangeCanvas();
             }
             else
@@ -211,20 +264,21 @@ public class Exchange : MonoBehaviour
                 tidakbisaupgrade.ShowPopup();
             }
         }
+        SaveStatus();
+        UpdateUpgradeStatus();
     }
 
     public void UpgradeSkillLevel()
     {
-        if(playerSkill.skillLevel == 1)
+        if (playerSkill.skillLevel == 1)
         {
             if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 500)
             {
+                SkillLevel2 = true;
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-500);
                 berhasildiupgrade.ShowPopup();
-                playerSkill.SetSkillLevel(2);
-                InfoApgred.SkillLvl2 = true;
-
+                UpgradeSkill.Play();
                 UpdateExchangeCanvas();
             }
             else
@@ -232,16 +286,15 @@ public class Exchange : MonoBehaviour
                 tidakbisaupgrade.ShowPopup();
             }
         }
-        else if(playerSkill.skillLevel == 2)
+        else if (playerSkill.skillLevel == 2)
         {
             if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1000)
             {
+                SkillLevel3 = true;
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-1000);
                 berhasildiupgrade.ShowPopup();
-                playerSkill.SetSkillLevel(3);
-                InfoApgred.SkillLvl3 = true;
-
+                UpgradeSkill.Play();
                 UpdateExchangeCanvas();
             }
             else
@@ -249,6 +302,8 @@ public class Exchange : MonoBehaviour
                 tidakbisaupgrade.ShowPopup();
             }
         }
+        SaveStatus();
+        UpdateUpgradeStatus();
     }
 
     public void UpgradeUltiLevel()
@@ -257,12 +312,11 @@ public class Exchange : MonoBehaviour
         {
             if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 500)
             {
+                UltiLevel2 = true;
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-500);
                 berhasildiupgrade.ShowPopup();
-                playerUlti.SetSkillLevel(2);
-                InfoApgred.UltiLvl2 = true;
-
+                UpgradeUlti.Play();
                 UpdateExchangeCanvas();
             }
             else
@@ -270,15 +324,17 @@ public class Exchange : MonoBehaviour
                 tidakbisaupgrade.ShowPopup();
             }
         }
-        else if(playerUlti.currentLevel == 2 && playerUlti.lv2)
+        else if (playerUlti.currentLevel == 2 && !playerUlti.lv3)
         {
             if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1000)
             {
+                UltiLevel3 = true;
                 inventoryManager.AddMonster(-1);
                 inventoryManager.AddKoinFantasy(-1000);
-                berhasildiupgrade.ShowPopup(); playerUlti.SetSkillLevel(3);
+                berhasildiupgrade.ShowPopup();
+                playerUlti.SetSkillLevel(3);
                 InfoApgred.UltiLvl3 = true;
-
+                UpgradeUlti.Play();
                 UpdateExchangeCanvas();
             }
             else
@@ -286,12 +342,50 @@ public class Exchange : MonoBehaviour
                 tidakbisaupgrade.ShowPopup();
             }
         }
+        SaveStatus();
+        UpdateUpgradeStatus();
+    }
+
+    private void SaveStatus()
+    {
+        PlayerPrefs.SetInt("AttackLevel2", AttackLevel2 ? 1 : 0);
+        PlayerPrefs.SetInt("AttackLevel3", AttackLevel3 ? 1 : 0);
+        PlayerPrefs.SetInt("SkillLevel2", SkillLevel2 ? 1 : 0);
+        PlayerPrefs.SetInt("SkillLevel3", SkillLevel3 ? 1 : 0);
+        PlayerPrefs.SetInt("UltiLevel2", UltiLevel2 ? 1 : 0);
+        PlayerPrefs.SetInt("UltiLevel3", UltiLevel3 ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadStatus()
+    {
+        AttackLevel2 = PlayerPrefs.GetInt("AttackLevel2") == 1;
+        AttackLevel3 = PlayerPrefs.GetInt("AttackLevel3") == 1;
+        SkillLevel2 = PlayerPrefs.GetInt("SkillLevel2") == 1;
+        SkillLevel3 = PlayerPrefs.GetInt("SkillLevel3") == 1;
+        UltiLevel2 = PlayerPrefs.GetInt("UltiLevel2") == 1;
+        UltiLevel3 = PlayerPrefs.GetInt("UltiLevel3") == 1;
+    }
+
+    public void ResetData()
+    {
+        AttackLevel2 = false;
+        AttackLevel3 = false;
+        SkillLevel2 = false;
+        SkillLevel3 = false;
+        UltiLevel2 = false;
+        UltiLevel3 = false;
+
+        UpdateUpgradeStatus();
+        UpdateExchangeCanvas();
+        SaveStatus();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            TekanE.SetActive(true);
             isInTrigger = true;
         }
     }
@@ -300,11 +394,8 @@ public class Exchange : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            TekanE.SetActive(false);
             isInTrigger = false;
-            buka.HideUI();
-            playerMovementScript.enabled = true;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

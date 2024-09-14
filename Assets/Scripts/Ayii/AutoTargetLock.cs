@@ -23,7 +23,6 @@ public class AutoTargetLock : MonoBehaviour
     [SerializeField] private Transform player;  // Referensi ke player
 
     public bool MusuhDiTargetkan;
-    private float maxAngle;
     public Transform currentTarget;
     private float mouseX;
     private float mouseY;
@@ -33,7 +32,6 @@ public class AutoTargetLock : MonoBehaviour
 
     void Start()
     {
-        maxAngle = 90f;
         kameraCinemachine.m_XAxis.m_InputAxisName = "";
         kameraCinemachine.m_YAxis.m_InputAxisName = "";
         UpdateTargetsInRange();

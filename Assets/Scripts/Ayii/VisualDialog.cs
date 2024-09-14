@@ -112,8 +112,13 @@ public class VisualDialog : MonoBehaviour
             // Jika belum berinteraksi
             ActivateDialog(mulaiDialog[currentDialogIndex]);
         }
-
+        if (MouseActive)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
         StartDialogEvent?.Invoke();
+
     }
 
     void Start()
@@ -121,11 +126,6 @@ public class VisualDialog : MonoBehaviour
         if (AutoStartDialog)
         {
             StartDialog();
-        }
-        if (MouseActive)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
     }
 
@@ -146,6 +146,11 @@ public class VisualDialog : MonoBehaviour
                 NextDialog();
             }
         }
+        if(Selesai)
+        {
+            AutoStartDialog = false;
+            AutoFinishDialog = false;
+        }
     }
 
     void NextDialog()
@@ -165,8 +170,10 @@ public class VisualDialog : MonoBehaviour
             else if (AutoFinishDialog)
             {
                 SetChildStatus(ParentObject, false);
+
+                FinishDialogEvent?.Invoke();
+                Selesai = true;
             }
-            FinishDialogEvent?.Invoke();
         }
         else if (isJawaban1Dialog && !NoOpsi)
         {
@@ -232,6 +239,7 @@ public class VisualDialog : MonoBehaviour
                     {
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
+                        Selesai = true;
                     }
                 }
                 else

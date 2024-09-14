@@ -25,10 +25,6 @@ public class RFX1_Attack : MonoBehaviour
     [HideInInspector] public float HUE = -1;
     [HideInInspector] public List<GameObject> CollidedInstances;
 
-    // Damage variables
-    [SerializeField] private int DamageLevel1 = 10;
-    [SerializeField] private int DamageLevel2 = 20;
-
     private Vector3 startPosition;
     private Vector3 startPositionLocal;
     Transform t;

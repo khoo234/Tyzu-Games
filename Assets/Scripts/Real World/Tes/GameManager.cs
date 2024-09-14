@@ -5,7 +5,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public TMP_Text coinText;
-    public TMP_Text CoinTampilkan;
 
     private int totalCoins = 0;
 
@@ -46,7 +45,6 @@ public class GameManager : MonoBehaviour
         if (coinText != null)
         {
             coinText.text = "Koin: " + totalCoins;
-            CoinTampilkan.text = totalCoins.ToString();
         }
         else
         {

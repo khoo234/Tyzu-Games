@@ -2994,13 +2994,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   benihValue: 1
   bibitValue: 1
-  NamaObject: Biji Biasa
-  NamaObject2: Bibit Biasa
+  NamaObject: Basic Seed
+  NamaObject2: Basic Plant
   Text: {fileID: 6823826373628643655}
   WaktuText: {fileID: 5736225114433434775}
   waktuDurasi: 20
   Biji: {fileID: 2614674471770573148}
   SudahSelesai: {fileID: 2970174665596976500}
+  searchRadius: 1
   Setengah:
     m_PersistentCalls:
       m_Calls: []
@@ -3010,7 +3011,13 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
+  Sekali:
+    m_PersistentCalls:
+      m_Calls: []
+  Panen: 0
   Ditanam: 0
+  isWatered: 0
+  canBeDestroyed: 0
 --- !u!1 &8874543976982173677
 GameObject:
   m_ObjectHideFlags: 0

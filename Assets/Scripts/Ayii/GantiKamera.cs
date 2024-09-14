@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GantiKamera : MonoBehaviour
 {
@@ -52,8 +53,8 @@ public class GantiKamera : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && Script2.IsInTrigger() && !Script2.HasPressedE())
         {
-            Script2.SetHasPressedE(true); // Tandai bahwa E telah ditekan
-            StartCoroutine(DelayedCameraSwitch(cameraSwitchDelay)); // Mulai coroutine dengan delay
+            Script2.SetHasPressedE(true);
+            StartCoroutine(DelayedCameraSwitch(cameraSwitchDelay));
         }
     }
 

@@ -76,9 +76,9 @@ GameObject:
   - component: {fileID: 114818764734346132}
   - component: {fileID: 82511410492960070}
   - component: {fileID: 114873214859236710}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire (1)
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33283,9 +33283,9 @@ GameObject:
   - component: {fileID: 114243962293368030}
   - component: {fileID: 82301326270939568}
   - component: {fileID: 114309533860673992}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33516,9 +33516,9 @@ GameObject:
   - component: {fileID: 4359987408720224}
   - component: {fileID: 114808982376100778}
   - component: {fileID: 82053768554945770}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire (2)
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

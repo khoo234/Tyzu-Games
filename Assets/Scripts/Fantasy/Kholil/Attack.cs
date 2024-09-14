@@ -77,4 +77,9 @@ public class Attack : MonoBehaviour
             Debug.LogWarning("VFX Prefab 1 atau VFX Spawn Point 1 belum diatur!");
         }
     }
+
+    public void Idle()
+    {
+        animator.SetTrigger("Idle");
+    }
 }

@@ -12,7 +12,6 @@ public class AIMeleeAttack : MonoBehaviour
     public LayerMask obstacleLayer;
 
     public Animator anim;
-    private bool isMoving = false;
 
     private bool isStunned = false;
     private float stunEndTime;
@@ -63,7 +62,6 @@ public class AIMeleeAttack : MonoBehaviour
             else
             {
                 anim.SetBool("Walk", false);
-                isMoving = false;
 
                 RotateTowardsPlayer();
 
@@ -104,7 +102,6 @@ public class AIMeleeAttack : MonoBehaviour
         {
             transform.position = newPosition;
             anim.SetBool("Walk", true);
-            isMoving = true;
         }
     }
 

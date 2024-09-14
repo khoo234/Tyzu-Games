@@ -15,7 +15,6 @@ public class AIFollowPlayer : MonoBehaviour
     public float subsequentFireRate = 1f;
 
     private float nextFireTime;
-    private bool hasShotInitial = false;
     public Animator anim;
     private bool isMoving = false;
 
@@ -76,7 +75,6 @@ public class AIFollowPlayer : MonoBehaviour
             {
                 anim.SetTrigger("Attack");
                 nextFireTime = Time.time + initialFireRate;
-                hasShotInitial = true;
             }
         }
     }

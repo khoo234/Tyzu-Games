@@ -4616,9 +4616,9 @@ GameObject:
   - component: {fileID: 114612341804796694}
   - component: {fileID: 114113065477215156}
   - component: {fileID: 82323963294934094}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4772,7 +4772,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 11be133b056286b44aff01674c669fae, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.102
   m_Pitch: 1.1
   Loop: 1
   Mute: 0
@@ -18635,9 +18635,9 @@ GameObject:
   - component: {fileID: 4268980479346742}
   - component: {fileID: 114129497167151558}
   - component: {fileID: 82886566579589498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire (1)
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18743,7 +18743,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 23f91b7208f83a44c827c76c304e55d2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.6
+  m_Volume: 0.102
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -55334,9 +55334,9 @@ GameObject:
   - component: {fileID: 4356030486334974}
   - component: {fileID: 114884111962105382}
   - component: {fileID: 82995985870585904}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire (2)
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55442,7 +55442,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 23f91b7208f83a44c827c76c304e55d2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_Volume: 0.102
   m_Pitch: 1.3
   Loop: 1
   Mute: 0

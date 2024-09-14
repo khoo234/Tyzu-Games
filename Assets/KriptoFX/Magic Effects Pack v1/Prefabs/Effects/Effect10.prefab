@@ -22781,9 +22781,9 @@ GameObject:
   - component: {fileID: 4271527511395690}
   - component: {fileID: 114571065051614860}
   - component: {fileID: 82239786219344784}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22949,9 +22949,9 @@ GameObject:
   - component: {fileID: 114547496945201108}
   - component: {fileID: 82248840811747828}
   - component: {fileID: 114164783602637948}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire (1)
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27805,7 +27805,7 @@ MonoBehaviour:
   Target: {fileID: 0}
   CollidesWith:
     serializedVersion: 2
-    m_Bits: 137
+    m_Bits: 201
   EffectsOnCollision:
   - {fileID: 1927186110770264, guid: 3535cb0b96aecfb4b987e4c3e4e7d90b, type: 3}
   CollisionOffset: 0.05
@@ -32313,7 +32313,6 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e967ef61bf7244247901dfed88ca37ff, type: 2}
   - {fileID: 2100000, guid: e967ef61bf7244247901dfed88ca37ff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -37093,7 +37092,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: f798ef98000466440a78fd9043ad642c, type: 2}
-  - {fileID: 2100000, guid: f798ef98000466440a78fd9043ad642c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -37364,7 +37362,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056000466919594752}
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: -0.5}
-  m_LocalPosition: {x: -0, y: 0, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

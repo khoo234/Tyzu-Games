@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class TriggerKamera : MonoBehaviour
@@ -12,6 +13,7 @@ public class TriggerKamera : MonoBehaviour
     private bool hasPressedE = false; // Variabel untuk memantau apakah E sudah ditekan
     private bool canPressS = false; // Variabel untuk mengontrol apakah tombol S bisa ditekan
     private PlayerInput playerInput; // Referensi ke PlayerInput
+    public UnityEvent Masuk;
 
     private void Start()
     {
@@ -27,7 +29,6 @@ public class TriggerKamera : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player masuk trigger. Tekan E untuk tampilan first person.");
             isInTrigger = true;
             hasPressedE = false; // Reset ketika memasuki trigger
         }
@@ -37,7 +38,6 @@ public class TriggerKamera : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player keluar trigger. Pindah ke tampilan third-person otomatis.");
             isInTrigger = false;
             hasPressedE = false; // Reset ketika keluar dari trigger
 
@@ -70,8 +70,8 @@ public class TriggerKamera : MonoBehaviour
             // Tombol E ditekan dan berada di dalam trigger
             if (!hasPressedE) // "Do Once" functionality
             {
+                Masuk?.Invoke();
                 hasPressedE = true; // Mark as done to prevent re-triggering
-                Debug.Log("Tombol E ditekan di dalam trigger.");
                 StartCoroutine(SwitchCameraAfterDelay(cameraSwitchDelay)); // Panggil coroutine dengan delay
                 StartCoroutine(ShowGameInGameUIImmediately()); // Tampilkan UI segera
 
@@ -86,7 +86,6 @@ public class TriggerKamera : MonoBehaviour
         // Periksa apakah tombol S ditekan hanya jika canPressS adalah true
         if (isInTrigger && Input.GetKeyDown(KeyCode.S) && canPressS)
         {
-            Debug.Log("Tombol S ditekan di dalam trigger.");
             if (playerInput != null)
             {
                 playerInput.enabled = true; // Aktifkan kembali input pemain
@@ -96,18 +95,15 @@ public class TriggerKamera : MonoBehaviour
 
     private IEnumerator SwitchCameraAfterDelay(float delay)
     {
-        Debug.Log($"Menunggu {delay} detik sebelum mengganti kamera.");
         yield return new WaitForSeconds(delay); // Tunggu selama delay
         if (Script != null)
         {
             Script.SwitchToFirstPerson(); // Ganti ke first-person view
-            Debug.Log("Berpindah ke tampilan first-person.");
         }
     }
 
     private IEnumerator ShowGameInGameUIImmediately()
     {
-        Debug.Log("Menampilkan UI game di dalam game.");
         // Tampilkan UI game di dalam game segera
         if (gameInGameUI != null && hasPressedE)
         {

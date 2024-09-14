@@ -5,12 +5,14 @@ public class Darah : MonoBehaviour
     [Header("Darah")]
     [SerializeField] private int DarahSekarang;
     [SerializeField] private int MaxDarah;
+    public AnimasiPosisi Notif;
     public Animator anim;
     public AIMeleeAttack Attack;
+    public int CoinMiaw;
+    private Benih benih;
 
     public HealthBar Script;
     private InventoryManager inventoryManager;
-    private Benih benih;
     public bool isDead = false;
 
     private void Awake()
@@ -21,10 +23,9 @@ public class Darah : MonoBehaviour
     private void Start()
     {
         Script = FindObjectOfType<HealthBar>();
-
-        Script.SetHealth(DarahSekarang, MaxDarah);
         benih = FindAnyObjectByType<Benih>();
-
+        Script.SetHealth(DarahSekarang, MaxDarah);
+        Notif = FindAnyObjectByType<AnimasiPosisi>();
         inventoryManager = FindObjectOfType<InventoryManager>();
     }
 
@@ -50,10 +51,10 @@ public class Darah : MonoBehaviour
     {
         anim.SetBool("Die", true);
         Destroy(gameObject, 2f);
-
+        inventoryManager.AddKoinFantasy(CoinMiaw);
         inventoryManager.AddMonster(1);
+        Notif.ShowUIWithDelay();
     }
-
     public void SetBenih(Benih newBenih)
     {
         benih = newBenih;

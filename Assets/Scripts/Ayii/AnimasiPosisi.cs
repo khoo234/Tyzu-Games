@@ -1,5 +1,8 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class AnimasiPosisi : MonoBehaviour
 {
@@ -15,13 +18,37 @@ public class AnimasiPosisi : MonoBehaviour
 
     public bool PopUp = false;
     private bool isShowing = false;
+    public bool Musuh;
+    private Darah DarahMusuh;
+    public TMP_Text KhususMusuh;
+    public int koinnya;
+    public UnityEvent Sound;
 
     void Start()
     {
         uiRectTransform = uiElement.GetComponent<RectTransform>();
-        if (PopUp)
+    }
+
+    void Update()
+    {
+        if (Musuh && DarahMusuh != null)
         {
-            ShowUIWithDelay();
+            koinnya = DarahMusuh.CoinMiaw;
+            if (KhususMusuh != null)
+            {
+                KhususMusuh.text = koinnya + " Coin";
+            }
+        }
+        FindEnemyHealth();
+    }
+
+    private void FindEnemyHealth()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+
+        if (enemy != null)
+        {
+            DarahMusuh = enemy.GetComponent<Darah>();
         }
     }
 
@@ -38,13 +65,11 @@ public class AnimasiPosisi : MonoBehaviour
 
     public void ShowUIWithDelay()
     {
-        if (!isShowing)
+        ShowUI();
+        if (PopUp)
         {
-            ShowUI();
-            if (PopUp)
-            {
-                StartCoroutine(WaitAndHide());
-            }
+            Sound?.Invoke();
+            StartCoroutine(WaitAndHide());
         }
     }
 

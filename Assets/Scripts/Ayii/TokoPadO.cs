@@ -62,7 +62,8 @@ public class TokoPadO : MonoBehaviour
     [Header("Animasi")]
     public Notifikasi UpiahTdkCkp;
     public Notifikasi BerhasilDibeli;
-
+    public AudioSource Buy;
+    public AudioSource NotEnough;
     void Start()
     {
         ScriptUpiah = FindAnyObjectByType<UpiahManager>();
@@ -72,107 +73,165 @@ public class TokoPadO : MonoBehaviour
         InfoHarga4.text = "Rp. " + HargaKrt1;
         InfoHarga5.text = "Rp. " + HargaKrt2;
         InfoHarga6.text = "Rp. " + HargaMbl;
+
+        LoadData();
     }
 
     void Update()
     {
         InfoRupiah.text = ScriptUpiah.totalUpiah.ToString();
+
+        BeliTnmn.interactable = !Tanamn;
+        BeliTnmn2.interactable = !Tanamn;
+        BeliLmr.interactable = !Lmri;
+        BeliLmr2.interactable = !Lmri;
+        BeliVbg.interactable = !Vasbng;
+        BeliVbg2.interactable = !Vasbng;
+        BeliKrt1.interactable = !Karpt1;
+        BeliKrt12.interactable = !Karpt1;
+        BeliKrt2.interactable = !Karpt2;
+        BeliKrt22.interactable = !Karpt2;
+        BeliMbl.interactable = !Mobl;
+        BeliMbl2.interactable = !Mobl;
     }
 
     public void Beli1()
     {
-        Tanamn = true;
-        if (ScriptUpiah.totalUpiah > HargaTnmn)
+        if (ScriptUpiah.totalUpiah >= HargaTnmn)
         {
+            Tanamn = true;
             ScriptUpiah.UpiahKurang(HargaTnmn);
             Tanaman.gameObject.SetActive(true);
-            BeliTnmn.interactable = false;
-            BeliTnmn2.interactable = false;
             BerhasilDibeli.ShowPopup();
+            SaveData();
+            Buy.Play();
         }
         else
         {
             UpiahTdkCkp.ShowPopup();
         }
     }
+
     public void Beli2()
     {
-        if (ScriptUpiah.totalUpiah > HargaLmr)
+        if (ScriptUpiah.totalUpiah >= HargaLmr)
         {
             Lmri = true;
             ScriptUpiah.UpiahKurang(HargaLmr);
             Lemari.gameObject.SetActive(true);
-            BeliLmr.interactable = false;
-            BeliLmr2.interactable = false;
             BerhasilDibeli.ShowPopup();
+            SaveData();
+            Buy.Play();
         }
         else
         {
             UpiahTdkCkp.ShowPopup();
         }
     }
+
     public void Beli3()
     {
-        if (ScriptUpiah.totalUpiah > HargaVbg)
+        if (ScriptUpiah.totalUpiah >= HargaVbg)
         {
             Vasbng = true;
             ScriptUpiah.UpiahKurang(HargaVbg);
             VasBunga.gameObject.SetActive(true);
-            BeliVbg.interactable = false;
-            BeliVbg2.interactable = false;
             BerhasilDibeli.ShowPopup();
+            SaveData();
+            Buy.Play();
         }
         else
         {
             UpiahTdkCkp.ShowPopup();
         }
     }
+
     public void Beli4()
     {
-        if (ScriptUpiah.totalUpiah > HargaKrt1)
+        if (ScriptUpiah.totalUpiah >= HargaKrt1)
         {
             Karpt1 = true;
             ScriptUpiah.UpiahKurang(HargaKrt1);
             Karpet1.gameObject.SetActive(true);
-            BeliKrt1.interactable = false;
-            BeliKrt12.interactable = false;
             BerhasilDibeli.ShowPopup();
+            SaveData();
+            Buy.Play();
         }
         else
         {
             UpiahTdkCkp.ShowPopup();
         }
     }
+
     public void Beli5()
     {
-        if (ScriptUpiah.totalUpiah > HargaKrt2)
+        if (ScriptUpiah.totalUpiah >= HargaKrt2)
         {
             Karpt2 = true;
             ScriptUpiah.UpiahKurang(HargaKrt2);
             Karpet2.gameObject.SetActive(true);
-            BeliKrt2.interactable = false;
-            BeliKrt22.interactable = false;
             BerhasilDibeli.ShowPopup();
+            SaveData();
+            Buy.Play();
         }
         else
         {
             UpiahTdkCkp.ShowPopup();
         }
     }
+
     public void Beli6()
     {
-        if (ScriptUpiah.totalUpiah > HargaMbl)
+        if (ScriptUpiah.totalUpiah >= HargaMbl)
         {
             Mobl = true;
             ScriptUpiah.UpiahKurang(HargaMbl);
             Mobil.gameObject.SetActive(true);
-            BeliMbl.interactable = false;
-            BeliMbl2.interactable = false;
             BerhasilDibeli.ShowPopup();
+            SaveData();
+            Buy.Play();
         }
         else
         {
             UpiahTdkCkp.ShowPopup();
         }
+    }
+
+    private void SaveData()
+    {
+        PlayerPrefs.SetInt("Tanamn", Tanamn ? 1 : 0);
+        PlayerPrefs.SetInt("Lmri", Lmri ? 1 : 0);
+        PlayerPrefs.SetInt("Vasbng", Vasbng ? 1 : 0);
+        PlayerPrefs.SetInt("Karpt1", Karpt1 ? 1 : 0);
+        PlayerPrefs.SetInt("Karpt2", Karpt2 ? 1 : 0);
+        PlayerPrefs.SetInt("Mobl", Mobl ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadData()
+    {
+        Tanamn = PlayerPrefs.GetInt("Tanamn", 0) == 1;
+        Lmri = PlayerPrefs.GetInt("Lmri", 0) == 1;
+        Vasbng = PlayerPrefs.GetInt("Vasbng", 0) == 1;
+        Karpt1 = PlayerPrefs.GetInt("Karpt1", 0) == 1;
+        Karpt2 = PlayerPrefs.GetInt("Karpt2", 0) == 1;
+        Mobl = PlayerPrefs.GetInt("Mobl", 0) == 1;
+
+        Tanaman.SetActive(Tanamn);
+        Lemari.SetActive(Lmri);
+        VasBunga.SetActive(Vasbng);
+        Karpet1.SetActive(Karpt1);
+        Karpet2.SetActive(Karpt2);
+        Mobil.SetActive(Mobl);
+    }
+
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteKey("Tanamn");
+        PlayerPrefs.DeleteKey("Lmri");
+        PlayerPrefs.DeleteKey("Vasbng");
+        PlayerPrefs.DeleteKey("Karpt1");
+        PlayerPrefs.DeleteKey("Karpt2");
+        PlayerPrefs.DeleteKey("Mobl");
     }
 }

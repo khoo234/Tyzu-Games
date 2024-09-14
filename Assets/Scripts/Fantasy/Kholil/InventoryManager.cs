@@ -20,14 +20,13 @@ public class InventoryManager : MonoBehaviour
     public TextMeshProUGUI koinFantasyText;
 
     [Header ("Jumlah")]
-    private int seedCount = 0;
-    private int seedrare = 0; // Jumlah benih rare
+    public int seedCount = 0;
+    public int seedrare = 0;
     public int monsterCount = 0;
-    private int bibitCount = 0;
-    private int bibitrare = 0; // Jumlah bibit rare
-    private int pupukCount = 0;
+    public int bibitCount = 0;
+    public int bibitrare = 0;
+    public int pupukCount = 0;
     public int KoinFantasy = 0;
-    private int Coin = 0;
 
     [Header("Fungsi Backpack")]
     public UnityEvent BukaBackPack;
@@ -50,6 +49,7 @@ public class InventoryManager : MonoBehaviour
     {
         Tombol1();
         UpdateAllUI();
+        LoadInventoryData();
     }
 
     void Update()
@@ -62,6 +62,42 @@ public class InventoryManager : MonoBehaviour
         {
             CloseInventory();
         }
+    }
+
+    public void SaveInventoryData()
+    {
+        PlayerPrefs.SetInt("SeedCount", seedCount);
+        PlayerPrefs.SetInt("SeedRareCount", seedrare);
+        PlayerPrefs.SetInt("MonsterCount", monsterCount);
+        PlayerPrefs.SetInt("BibitCount", bibitCount);
+        PlayerPrefs.SetInt("BibitRareCount", bibitrare);
+        PlayerPrefs.SetInt("PupukCount", pupukCount);
+        PlayerPrefs.SetInt("KoinFantasy", KoinFantasy);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadInventoryData()
+    {
+        seedCount = PlayerPrefs.GetInt("SeedCount", 0);
+        seedrare = PlayerPrefs.GetInt("SeedRareCount", 0);
+        monsterCount = PlayerPrefs.GetInt("MonsterCount", 0);
+        bibitCount = PlayerPrefs.GetInt("BibitCount", 0);
+        bibitrare = PlayerPrefs.GetInt("BibitRareCount", 0);
+        pupukCount = PlayerPrefs.GetInt("PupukCount", 0);
+        KoinFantasy = PlayerPrefs.GetInt("KoinFantasy", 0);
+
+        UpdateAllUI();
+    }
+
+    public void Kosongan()
+    {
+        seedCount = 0;
+        seedrare = 0;
+        monsterCount = 0;
+        bibitCount = 0;
+        bibitrare = 0;
+        pupukCount = 0;
+        KoinFantasy = 0;
     }
 
     public void OpenInventory()
@@ -77,11 +113,18 @@ public class InventoryManager : MonoBehaviour
 
     public void CloseInventory()
     {
+        SaveInventoryData();
         isInventoryOpen = false;
         TutupBackPack?.Invoke();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerMovementScript.enabled = true;
+    }
+
+    // Atau, simpan data saat game di-quit
+    void OnApplicationQuit()
+    {
+        SaveInventoryData();
     }
 
     public void AddSeed(int amount)
@@ -205,16 +248,6 @@ public class InventoryManager : MonoBehaviour
     public int GetKoinFantasy()
     {
         return KoinFantasy;
-    }
-
-    public void AddCoin(int amount)
-    {
-        Coin += amount;
-    }
-
-    public int GetCoin()
-    {
-        return Coin;
     }
 
     private void UpdateAllUI()

@@ -24,6 +24,7 @@ public class Benih : MonoBehaviour
     [Header("Bentuk Benih")]
     public GameObject Biji;
     public GameObject SudahSelesai;
+    public float searchRadius = 2f;
 
     [Header("Event")]
     public UnityEvent Setengah;
@@ -32,9 +33,15 @@ public class Benih : MonoBehaviour
     public GameObject[] enemyPrefabs;
     public Transform[] spawnPoints;
 
+    [Header("Event Sekali")]
+    public UnityEvent Sekali;
+
+    private MenanamBenih Ladang;
+
+    public bool Panen;
     public bool Ditanam = false;
-    private bool isWatered = false;
-    private bool canBeDestroyed = false;
+    public bool isWatered = false;
+    public bool canBeDestroyed = false;
 
     private List<GameObject> spawnedEnemies = new List<GameObject>();
 
@@ -64,20 +71,23 @@ public class Benih : MonoBehaviour
             {
                 waktuAktif = false;
                 WaktuText.gameObject.SetActive(false);
-                Debug.Log("Waktu telah tercapai!");
                 Biji.SetActive(false);
                 SudahSelesai.SetActive(true);
+                Panen = true;
                 Text.text = NamaObject2;
                 canBeDestroyed = true;
-
-                // Tambahkan bibit ke inventory
-                AddBibitToInventory();
+                Ladang.plantedSeed = null;
+                Ladang.hasPlantedSeed = false;
             }
 
             if (waktuSisa == 10 && spawnedEnemies.Count == 0)
             {
                 SpawnEnemies();
                 timerPaused = true;
+                if(Ladang.Dialog != null)
+                {
+                    Ladang.Dialog.StartDialog();
+                }
             }
 
             if (waktuSisa == 5)
@@ -104,13 +114,23 @@ public class Benih : MonoBehaviour
 
             if (allEnemiesDead)
             {
+                if(Ladang.Dialog != null)
+                {
+                    Ladang.Dialog.StartDialog();
+                }
                 timerPaused = false;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && canBeDestroyed)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, searchRadius);
+        foreach (var collider in colliders)
         {
-            DestroySeed();
+            MenanamBenih ladang = collider.GetComponent<MenanamBenih>();
+            if (ladang != null)
+            {
+                Ladang = ladang;
+                break;
+            }
         }
     }
 
@@ -138,19 +158,21 @@ public class Benih : MonoBehaviour
             isWatered = true;
             ReceiveWatering();
 
-            // Pastikan benih rare dikurangi setiap kali benih rare ditanam
             if (CompareTag("SeedRare"))
             {
                 InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
-                if (inventoryManager != null && inventoryManager.HasSeedRare())
+                if (inventoryManager != null && inventoryManager.HasPupuk())
                 {
-                    inventoryManager.UseSeedRare(); // Mengurangi benih rare
-                    Debug.Log("Benih rare ditanam, jumlah berkurang.");
+                    inventoryManager.UsePupuk(); // Mengurangi pupuk
+                }
+                else
+                {
+                    Debug.Log("Tidak ada pupuk yang cukup untuk benih rare.");
+                    return; // Keluar jika tidak ada pupuk
                 }
             }
         }
     }
-
 
     private void ReceiveWatering()
     {
@@ -172,12 +194,12 @@ public class Benih : MonoBehaviour
     {
         if (canBeDestroyed)
         {
-            Debug.Log("Destroying seed.");
+            Panen = false;
             Destroy(gameObject);
         }
     }
 
-    private void AddBibitToInventory()
+    public void AddBibitToInventory()
     {
         InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
         if (inventoryManager != null)
@@ -185,36 +207,43 @@ public class Benih : MonoBehaviour
             if (CompareTag("SeedRare"))
             {
                 inventoryManager.AddBibitRare(bibitValue);
-                Debug.Log("Bibit Rare ditambahkan ke inventory.");
             }
             else
             {
                 inventoryManager.AddBibit(bibitValue);
-                Debug.Log("Bibit ditambahkan ke inventory.");
             }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!Ditanam)
         {
-            Debug.Log("Benih collected! Value: " + benihValue);
-
-            InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
-            if (inventoryManager != null)
+            if (other.CompareTag("Player"))
             {
-                if (CompareTag("SeedRare"))
+                InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
+                if (inventoryManager != null)
                 {
-                    inventoryManager.AddSeedRare(benihValue); // Menambahkan benih rare ke inventory
+                    if (CompareTag("SeedRare"))
+                    {
+                        inventoryManager.AddSeedRare(benihValue); // Menambahkan benih rare ke inventory
+                        Sekali?.Invoke();
+                    }
+                    else
+                    {
+                        inventoryManager.AddSeed(benihValue); // Menambahkan benih biasa ke inventory
+                        Sekali?.Invoke();
+                    }
                 }
-                else
-                {
-                    inventoryManager.AddSeed(benihValue); // Menambahkan benih biasa ke inventory
-                }
-            }
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
+    }
+
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
     }
 }

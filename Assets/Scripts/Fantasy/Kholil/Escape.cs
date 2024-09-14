@@ -19,22 +19,13 @@ public class Escape : MonoBehaviour
         }
         if (!Pause && Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.visible = false;
-            PlayerPrefs.SetInt("TotalCoins", GameManager.Instance.GetTotalCoins());
-            Pause = true;
-            Aktif?.Invoke();
-            StartCoroutine(Delay());
             KursorMuncul();
         }
         else if(Pause && Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.visible = true;
-            Pause = false;
-            Mati?.Invoke();
             KursorHilang();
-            Time.timeScale = 1f;
-            StopCoroutine(Delay());
         }
+        PlayerPrefs.SetInt("TotalCoins", GameManager.Instance.GetTotalCoins());
     }
 
     private IEnumerator Delay ()
@@ -55,12 +46,15 @@ public class Escape : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
-        StopCoroutine(Delay());
         Mati?.Invoke();
+        StopCoroutine(Delay());
     }
 
     public void KursorMuncul()
     {
+        Pause = true;
+        Aktif?.Invoke();
+        StartCoroutine(Delay());
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

@@ -12,6 +12,9 @@ TagManager:
   - Obstacle
   - CinemachineTarget
   - SpawnEnemy
+  - SFX
+  - Music
+  - AdaEnemy
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - 
+  - SFX
   - 
   - 
   - 
