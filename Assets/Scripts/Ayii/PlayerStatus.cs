@@ -82,6 +82,8 @@ public class PlayerStatus : MonoBehaviour
     public void Heal(int Heall)
     {
         DarahSekarang += Heall;
+
+        Script.SetHealth(DarahSekarang, MaxDarah);
     }
 
     private void OnTriggerEnter(Collider other)

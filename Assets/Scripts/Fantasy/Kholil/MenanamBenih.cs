@@ -47,10 +47,13 @@ public class MenanamBenih : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && canPlant && !hasPlantedSeed)
+        if (plantedSeed == null)
         {
-            PlantSeed();
-            Plant.Play();
+            if (Input.GetKeyDown(KeyCode.E) && canPlant && !hasPlantedSeed)
+            {
+                PlantSeed();
+                Plant.Play();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && canPlant && isSeedRareField && plantedSeed != null)
@@ -111,8 +114,8 @@ public class MenanamBenih : MonoBehaviour
                 Harvest.Play();
                 plantedSeed.DestroySeed();
                 plantedSeed.AddBibitToInventory();
+                wateredd = false;
             }
-
         }
 
         CariBenih();
