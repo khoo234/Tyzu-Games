@@ -140,8 +140,6 @@ public class AIFollowPlayer : MonoBehaviour
     {
         if (bulletPrefab != null && firePoint != null)
         {
-            Debug.Log("Spawning Bullet!"); // Debugging untuk memeriksa apakah metode ini dipanggil
-
             // Calculate the fire direction
             Vector3 fireDirection = (player.position - firePoint.position).normalized;
 

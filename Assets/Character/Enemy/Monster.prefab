@@ -1116,7 +1116,7 @@ MonoBehaviour:
   avoidanceDistance: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 0
   bulletPrefab: {fileID: 1992473127755236, guid: a1fa9874b21d15742b4b1f4eee23229e,
     type: 3}
   firePoint: {fileID: 6599894040858845061}

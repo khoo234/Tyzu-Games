@@ -22,6 +22,7 @@ public class Exchange : MonoBehaviour
     public Notifikasi tidakpunya;
     public Notifikasi tidakcukuptukar;
     public Notifikasi tidakbisaupgrade;
+    public Notifikasi Sold;
 
     private bool isInTrigger = false;
     private bool bukatoko = false;
@@ -47,17 +48,22 @@ public class Exchange : MonoBehaviour
     public bool UltiLevel2;
     public bool UltiLevel3;
 
+    [Header("Skin")]
+    public bool BeliSkin;
+
     [Header("Text")]
     public TextMeshProUGUI TextBibitBiasa;
     public TextMeshProUGUI TextBibitRare;
     public TextMeshProUGUI TextKoin;
     public TextMeshProUGUI TextHama;
+    public CharacterSwitcher characterSwitcher;
 
     [Header("Buka")]
     public UnityEvent bukatokoo;
 
     [Header("Tutup")]
     public UnityEvent tutuptokoo;
+
 
     void Start()
     {
@@ -133,7 +139,12 @@ public class Exchange : MonoBehaviour
             playerUlti.SetSkillLevel(2);
             InfoApgred.UltiLvl2 = true;
         }
-        UpdateExchangeCanvas(); 
+
+        if (BeliSkin)
+        {
+            characterSwitcher.isKoinExchanged = true;
+        }
+        UpdateExchangeCanvas();
     }
 
     public void BukaToko()
@@ -181,6 +192,33 @@ public class Exchange : MonoBehaviour
             tidakcukuptukar.ShowPopup();
         }
     }
+    public void TukarKoinkeSkin()
+    {
+        if (!BeliSkin)
+        {
+            if (inventoryManager.GetKoinFantasy() >= 10000)
+            {
+                characterSwitcher.switchEffectObject.SetActive(true);
+                characterSwitcher.SwitchToMaterialKucing2(characterSwitcher.badanPartName007);
+                characterSwitcher.SwitchToMaterialBadan002_2();
+                inventoryManager.AddKoinFantasy(-10000);
+                berhasiltukar.ShowPopup();
+                UpdateExchangeCanvas();
+                Sell.Play();
+                BeliSkin = true;
+            }
+            else
+            {
+                tidakcukuptukar.ShowPopup();
+            }
+        }
+        else
+        {
+            Sold.ShowPopup();
+        }
+        SaveStatus();
+        UpdateUpgradeStatus();
+    }
 
     public void TukarBibitCommon()
     {
@@ -203,7 +241,7 @@ public class Exchange : MonoBehaviour
         if (inventoryManager.GetBibitRareCount() >= 1)
         {
             inventoryManager.UseBibitRare();
-            inventoryManager.AddKoinFantasy(1500);
+            inventoryManager.AddKoinFantasy(2000);
             UpdateExchangeCanvas();
             berhasilbeli.ShowPopup();
             Sell.Play();
@@ -272,11 +310,11 @@ public class Exchange : MonoBehaviour
     {
         if (playerSkill.skillLevel == 1)
         {
-            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 500)
+            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 700)
             {
                 SkillLevel2 = true;
                 inventoryManager.AddMonster(-1);
-                inventoryManager.AddKoinFantasy(-500);
+                inventoryManager.AddKoinFantasy(-700);
                 berhasildiupgrade.ShowPopup();
                 UpgradeSkill.Play();
                 UpdateExchangeCanvas();
@@ -288,11 +326,11 @@ public class Exchange : MonoBehaviour
         }
         else if (playerSkill.skillLevel == 2)
         {
-            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1000)
+            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1400)
             {
                 SkillLevel3 = true;
                 inventoryManager.AddMonster(-1);
-                inventoryManager.AddKoinFantasy(-1000);
+                inventoryManager.AddKoinFantasy(-1400);
                 berhasildiupgrade.ShowPopup();
                 UpgradeSkill.Play();
                 UpdateExchangeCanvas();
@@ -310,11 +348,11 @@ public class Exchange : MonoBehaviour
     {
         if (playerUlti.currentLevel == 1 && !playerUlti.lv2)
         {
-            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 500)
+            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1000)
             {
                 UltiLevel2 = true;
                 inventoryManager.AddMonster(-1);
-                inventoryManager.AddKoinFantasy(-500);
+                inventoryManager.AddKoinFantasy(-1000);
                 berhasildiupgrade.ShowPopup();
                 UpgradeUlti.Play();
                 UpdateExchangeCanvas();
@@ -326,11 +364,11 @@ public class Exchange : MonoBehaviour
         }
         else if (playerUlti.currentLevel == 2 && !playerUlti.lv3)
         {
-            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 1000)
+            if (inventoryManager.GetMonsterCount() >= 1 && inventoryManager.GetKoinFantasy() >= 2000)
             {
                 UltiLevel3 = true;
                 inventoryManager.AddMonster(-1);
-                inventoryManager.AddKoinFantasy(-1000);
+                inventoryManager.AddKoinFantasy(-2000);
                 berhasildiupgrade.ShowPopup();
                 playerUlti.SetSkillLevel(3);
                 InfoApgred.UltiLvl3 = true;
@@ -354,6 +392,7 @@ public class Exchange : MonoBehaviour
         PlayerPrefs.SetInt("SkillLevel3", SkillLevel3 ? 1 : 0);
         PlayerPrefs.SetInt("UltiLevel2", UltiLevel2 ? 1 : 0);
         PlayerPrefs.SetInt("UltiLevel3", UltiLevel3 ? 1 : 0);
+        PlayerPrefs.SetInt("BeliSkin", BeliSkin ? 1 : 0);
         PlayerPrefs.Save();
     }
 
@@ -365,6 +404,7 @@ public class Exchange : MonoBehaviour
         SkillLevel3 = PlayerPrefs.GetInt("SkillLevel3") == 1;
         UltiLevel2 = PlayerPrefs.GetInt("UltiLevel2") == 1;
         UltiLevel3 = PlayerPrefs.GetInt("UltiLevel3") == 1;
+        BeliSkin = PlayerPrefs.GetInt("BeliSkin") == 1;
     }
 
     public void ResetData()
@@ -375,6 +415,7 @@ public class Exchange : MonoBehaviour
         SkillLevel3 = false;
         UltiLevel2 = false;
         UltiLevel3 = false;
+        BeliSkin = false;
 
         UpdateUpgradeStatus();
         UpdateExchangeCanvas();

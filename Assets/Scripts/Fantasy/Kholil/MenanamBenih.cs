@@ -169,23 +169,26 @@ public class MenanamBenih : MonoBehaviour
             Destroy(waterVFX, 2f);
 
             plantedSeed.StartWatering();
-            isFertilized = false; // Reset status pupuk setelah menyiram
         }
     }
 
     void UseFertilizer()
     {
-        if (plantedSeed != null)
+        if (plantedSeed != null && !isFertilized)
         {
             InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
             if (inventoryManager != null && inventoryManager.HasPupuk())
             {
-                inventoryManager.UsePupuk(); // Mengurangi pupuk dari inventory
+                inventoryManager.UsePupuk();
                 isFertilized = true;
+
+                Vector3 fertilizerPosition = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+                GameObject fertilizerVFX = Instantiate(fertilizerPrefab, fertilizerPosition, Quaternion.identity);
+                Destroy(fertilizerVFX, 2f);
             }
             else
             {
-                Debug.LogWarning("Pupuk tidak cukup.");
+                NeedFertilizer.ShowPopup();
             }
         }
     }

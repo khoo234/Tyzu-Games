@@ -203,7 +203,6 @@ public class RFX1_Attack : MonoBehaviour
         if (hit.collider.CompareTag("Enemy"))
         {
             Darah enemyHealth = hit.collider.GetComponent<Darah>();
-            Debug.Log("Applying Damage: " + damagee); // Debug to ensure correct damage value
             enemyHealth.KenaDamage(damagee);
         }
     }

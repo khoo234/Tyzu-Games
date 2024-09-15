@@ -1639,7 +1639,7 @@ MonoBehaviour:
   avoidanceDistance: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   anim: {fileID: 6474034777705737723}
   meleeEffectPrefab: {fileID: 1238248070401702, guid: 418ce8cd1cb29cd4c9a83520584a0a11,
     type: 3}

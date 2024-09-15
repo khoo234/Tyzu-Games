@@ -6792,7 +6792,7 @@ MonoBehaviour:
   NamaObject2: Rare Plant
   Text: {fileID: 5384067290333683488}
   WaktuText: {fileID: 6597842843174888176}
-  waktuDurasi: 5
+  waktuDurasi: 50
   Biji: {fileID: 3840353845243746072}
   SudahSelesai: {fileID: 7275149733743475533}
   searchRadius: 1
@@ -6805,8 +6805,13 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
+  Sekali:
+    m_PersistentCalls:
+      m_Calls: []
+  Panen: 0
   Ditanam: 0
   isWatered: 0
+  canBeDestroyed: 0
 --- !u!1 &8140764323549036506
 GameObject:
   m_ObjectHideFlags: 0

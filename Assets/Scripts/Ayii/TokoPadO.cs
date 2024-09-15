@@ -108,6 +108,7 @@ public class TokoPadO : MonoBehaviour
         }
         else
         {
+            NotEnough.Play();
             UpiahTdkCkp.ShowPopup();
         }
     }
@@ -125,6 +126,7 @@ public class TokoPadO : MonoBehaviour
         }
         else
         {
+            NotEnough.Play();
             UpiahTdkCkp.ShowPopup();
         }
     }
@@ -142,6 +144,7 @@ public class TokoPadO : MonoBehaviour
         }
         else
         {
+            NotEnough.Play();
             UpiahTdkCkp.ShowPopup();
         }
     }
@@ -159,6 +162,7 @@ public class TokoPadO : MonoBehaviour
         }
         else
         {
+            NotEnough.Play();
             UpiahTdkCkp.ShowPopup();
         }
     }
@@ -176,6 +180,7 @@ public class TokoPadO : MonoBehaviour
         }
         else
         {
+            NotEnough.Play();
             UpiahTdkCkp.ShowPopup();
         }
     }
@@ -193,6 +198,7 @@ public class TokoPadO : MonoBehaviour
         }
         else
         {
+            NotEnough.Play();
             UpiahTdkCkp.ShowPopup();
         }
     }

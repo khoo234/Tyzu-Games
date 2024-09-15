@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using System.IO;
 
 public class PlayerStatus : MonoBehaviour
@@ -34,6 +35,11 @@ public class PlayerStatus : MonoBehaviour
     [Header("Search Settings")]
     public float searchRadius = 2f;
 
+    [Header("Death Event")]
+    public UnityEvent Kematiann;
+    public AnimasiPosisi Matii;
+    public AudioSource GagalDeh;
+
     private void Awake()
     {
         MaxDarah = DarahSekarang;
@@ -63,27 +69,18 @@ public class PlayerStatus : MonoBehaviour
                 break; // Hentikan pencarian jika sudah menemukan Benih
             }
         }
+        Script.SetHealth(DarahSekarang, MaxDarah);
     }
 
     public void KenaDamage(int Jumlah)
     {
         DarahSekarang -= Jumlah;
         anim.SetTrigger("Hit");
-
-        Script.SetHealth(DarahSekarang, MaxDarah);
-    }
-
-    public void Mati()
-    {
-        anim.SetBool("Death", true);
-        Debug.Log("Kamu Mati!");
     }
 
     public void Heal(int Heall)
     {
         DarahSekarang += Heall;
-
-        Script.SetHealth(DarahSekarang, MaxDarah);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -133,5 +130,35 @@ public class PlayerStatus : MonoBehaviour
         }
 
         transform.position = defaultPosition;
+    }
+
+    public void Mati()
+    {
+        Kematiann?.Invoke();
+        anim.SetBool("Death", true);
+        StartCoroutine(Menunggu(5));
+    }
+
+    private IEnumerator Menunggu(float Waktu)
+    {
+        yield return new WaitForSeconds(Waktu);
+        Matii.ShowUI();
+        yield return new WaitForSeconds(1f);
+        StopAllCoroutines();
+        GagalDeh.Play();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void JalanLagi()
+    {
+        ResetPosisi();
+        StopAllCoroutines();
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        anim.SetBool("Death", false);
+        DarahSekarang = MaxDarah;
     }
 }

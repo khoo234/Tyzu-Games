@@ -16,7 +16,7 @@ public class Trigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Status.Heal(10);
+            Status.KenaDamage(-20);
             Destroy(gameObject);
         }
     }

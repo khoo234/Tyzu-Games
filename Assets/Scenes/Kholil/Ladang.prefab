@@ -383,5 +383,13 @@ MonoBehaviour:
   fertilizerPrefab: {fileID: 0}
   canPlant: 0
   isSeedRareField: 0
+  plantedSeed: {fileID: 0}
+  hasPlantedSeed: 0
+  Dialog: {fileID: 0}
   TekanE: {fileID: 2696464301554010983}
   Textnya: {fileID: 6220851175678220971}
+  searchRadius: 0
+  TidakAda: {fileID: 0}
+  NeedFertilizer: {fileID: 0}
+  Plant: {fileID: 0}
+  Harvest: {fileID: 0}

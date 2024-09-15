@@ -7,21 +7,27 @@ using UnityEngine.EventSystems;
 
 public class InformasiToko : MonoBehaviour
 {
-    [Header ("Menampilkan")]
+    [Header("Menampilkan")]
     public TMP_Text Judul;
     public TMP_Text Informasi;
 
-    [Header ("Item 1")]
+    [Header("Item 1")]
     [SerializeField] private string Judul1;
     [SerializeField] private string Informasi1;
     [SerializeField] private GameObject Gambar1;
     [SerializeField] private GameObject JualItem1;
 
-    [Header ("Item 2")]
+    [Header("Item 2")]
     [SerializeField] private string Judul2;
     [SerializeField] private string Informasi2;
     [SerializeField] private GameObject Gambar2;
     [SerializeField] private GameObject JualItem2;
+
+    [Header("Item 3")]
+    [SerializeField] private string Judul3;
+    [SerializeField] private string Informasi3;
+    [SerializeField] private GameObject Gambar3;
+    [SerializeField] private GameObject JualItem3;
 
     private void Start()
     {
@@ -32,10 +38,15 @@ public class InformasiToko : MonoBehaviour
     {
         Judul.text = Judul1;
         Informasi.text = Informasi1;
-        Gambar1.SetActive (true);
-        JualItem1.SetActive (true);
-        JualItem2.SetActive (false);
-        Gambar2.SetActive (false);
+        Gambar1.SetActive(true);
+        JualItem1.SetActive(true);
+        JualItem2.SetActive(false);
+        Gambar2.SetActive(false);
+        if (Gambar3 != null && JualItem3 != null)
+        {
+            JualItem3.SetActive(false);
+            Gambar3.SetActive(false);
+        }
     }
     public void Item2()
     {
@@ -45,5 +56,29 @@ public class InformasiToko : MonoBehaviour
         JualItem2.SetActive(true);
         JualItem1.SetActive(false);
         Gambar1.SetActive(false);
+        if (Gambar3 != null && JualItem3 != null)
+        {
+            JualItem3.SetActive(false);
+            Gambar3.SetActive(false);
+        }
+    }
+
+    public void Item3()
+    {
+        if (Gambar3 != null && JualItem3 != null)
+        {
+            Judul.text = Judul3;
+            Informasi.text = Informasi3;
+            Gambar3.SetActive(true);
+            JualItem3.SetActive(true);
+            JualItem2.SetActive(false);
+            Gambar2.SetActive(false);
+            JualItem1.SetActive(false);
+            Gambar1.SetActive(false);
+        }
+        else
+        {
+            return;
+        }
     }
 }

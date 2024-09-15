@@ -21,5 +21,6 @@ public class FaceCamera : MonoBehaviour
         {
             transform.LookAt(Camera.transform);
         }
+        transform.rotation *= Quaternion.Euler(rotationOffset);
     }
 }

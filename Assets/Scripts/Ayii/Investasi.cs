@@ -7,6 +7,7 @@ public class Investasi : MonoBehaviour
 {
     private UpiahManager Script;
     public Notifikasi NotifTdkCukup;
+    public Notifikasi Minimallah;
     public AnimasiPosisi NotifKeuntungan;
     public Notifikasi NotifMasukkanUpiah;
     public Notifikasi BerhasilDibeli;
@@ -157,32 +158,37 @@ public class Investasi : MonoBehaviour
     {
         if (string.IsNullOrEmpty(JumlahJangkaPendek.text))
         {
+            TidakCukup.Play();
             NotifMasukkanUpiah.ShowPopup();
             return;
         }
 
-        if (Script.totalUpiah < InvestJangkaPendek)
+        if (InvestJangkaPendek >= 15000)
         {
-            NotifTdkCukup.ShowPopup();
-            Button1.interactable = true;
-        }
-        else if (InvestJangkaPendek >= 15000)
-        {
-            Script.UpiahKurang(InvestJangkaPendek);
-            totalPendapatanJangkaPendek = 0;
-            isInvestingJPK = true;
-            waktunyaJPK = WaktuJangkaPendek;
-            DuitInvJPK = InvestJangkaPendek;
-            StartCoroutine(MulaiInvestasiJPK());
-            Button1.interactable = false;
-            ClaimJPKnya.interactable = false;
-            BerhasilDibeli.ShowPopup();
-            SaveInvestmentData();
-            Beli.Play();
+            if (Script.totalUpiah < InvestJangkaPendek)
+            {
+                NotifTdkCukup.ShowPopup();
+                Button1.interactable = true;
+                TidakCukup.Play();
+            }
+            else
+            {
+                Script.UpiahKurang(InvestJangkaPendek);
+                totalPendapatanJangkaPendek = 0;
+                isInvestingJPK = true;
+                waktunyaJPK = WaktuJangkaPendek;
+                DuitInvJPK = InvestJangkaPendek;
+                StartCoroutine(MulaiInvestasiJPK());
+                Button1.interactable = false;
+                ClaimJPKnya.interactable = false;
+                BerhasilDibeli.ShowPopup();
+                SaveInvestmentData();
+                Beli.Play();
+            }
         }
         else
         {
-            NotifTdkCukup.ShowPopup();
+            Minimallah.ShowPopup();
             TidakCukup.Play();
         }
     }
@@ -236,32 +242,38 @@ public class Investasi : MonoBehaviour
     {
         if (string.IsNullOrEmpty(JumlahJangkaPanjang.text))
         {
+            TidakCukup.Play();
             NotifMasukkanUpiah.ShowPopup();
             return;
         }
 
-        if (Script.totalUpiah < InvestJangkaPanjang)
+
+        if (InvestJangkaPanjang >= 15000)
         {
-            NotifTdkCukup.ShowPopup();
-            Button2.interactable = true;
-        }
-        else if (InvestJangkaPanjang >= 15000)
-        {
-            Script.UpiahKurang(InvestJangkaPanjang);
-            totalPendapatanJangkaPanjang = 0;
-            isInvestingJPG = true;
-            DuitInvJPG = InvestJangkaPanjang;
-            waktunyaJPG = WaktuJangkaPanjang;
-            StartCoroutine(MulaiInvestasiJPG());
-            Button2.interactable = false;
-            ClaimJPGnya.interactable = false;
-            BerhasilDibeli.ShowPopup();
-            SaveInvestmentData();
-            Beli.Play();
+            if (Script.totalUpiah < InvestJangkaPanjang)
+            {
+                TidakCukup.Play();
+                NotifTdkCukup.ShowPopup();
+                Button2.interactable = true;
+            }
+            else 
+            {
+                Script.UpiahKurang(InvestJangkaPanjang);
+                totalPendapatanJangkaPanjang = 0;
+                isInvestingJPG = true;
+                DuitInvJPG = InvestJangkaPanjang;
+                waktunyaJPG = WaktuJangkaPanjang;
+                StartCoroutine(MulaiInvestasiJPG());
+                Button2.interactable = false;
+                ClaimJPGnya.interactable = false;
+                BerhasilDibeli.ShowPopup();
+                SaveInvestmentData();
+                Beli.Play();
+            }
         }
         else
         {
-            NotifTdkCukup.ShowPopup();
+            Minimallah.ShowPopup();
             TidakCukup.Play();
         }
     }
